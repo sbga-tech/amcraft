@@ -1,0 +1,11 @@
+[package]
+name = "libam-api"
+description = "The libam interface amdaemon is built against: every facade, listener event and value type"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+thiserror = "2"

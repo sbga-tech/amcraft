@@ -1,0 +1,64 @@
+[package]
+name = "libam"
+description = "Recreation of libam, the device, network and main-flow library inside amdaemon"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+# Protocol emulators, the clock double and a healthy-cabinet assembly; generic doubles live in backend::mock.
+mock = ["backend/mock"]
+
+[dependencies]
+libam-api.workspace = true
+backend.workspace = true
+tracing.workspace = true
+thiserror = "2"
+# Configuration loader (`config/**`).
+serde = "1"
+serde_json = "1"
+# NVRAM record CRC-32 (storage.md 3.4), CP932 conversions (game-id/option-id, VFD text in `display/vfd.rs`), ICF
+# decryption (AES-128-CBC), the ABaaS request/response cipher (AES-256-CBC, key from SHA-256), and the network
+# delivery image library (`network/deliver_*.rs`: segment CRC-32, BootId AES-128-CBC, image signature HMAC-SHA1).
+crc32fast = "1"
+encoding_rs = "0.8"
+aes = "0.8"
+cbc = { version = "0.1", features = ["alloc"] }
+sha2 = { version = "0.10.9", features = ["oid"] }
+sha1 = "0.10"
+hmac = "0.12"
+# AS-6DB coin selector frame CRC-8 (`credit/as6db/frame.rs`, credit.md part II).
+crc = "3"
+# Aime: the Aime DB packet cipher (AES-128-ECB), the FeliCa Lite 3DES and the Banapass Blowfish key schedule
+# (aime.md parts B and E).
+ecb = "0.1"
+des = "0.8"
+blowfish = "0.9"
+# ABaaS log upload (storage.md 6.9) and the ALL.Net exchanges (allnet.md parts 4-9): zlib bodies, MD5 hashes,
+# Base64 bodies, local file times.
+flate2 = "1.1"
+md-5 = "0.11"
+base64 = "0.23"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+# The internal machine-wide counter behind the boot clock and the AS-6DB seed (`src/clock.rs`).
+quanta = { version = "0.13", default-features = false }
+# ALL.Net `auth_data` CMS verification against the TLS peer chain and the SAMA signatures (allnet.md parts 6, 10).
+cms = "0.2.3"
+x509-cert = "0.2.5"
+rsa = "0.9.10"
+der = "0.7.10"
+# `alAuthRandom` (the Auth 2.0 fallback packet): the operating system's generator, `BCryptGenRandom` family on
+# Windows (allnet.md `alAuthRandom`).
+getrandom = "0.4"
+
+[dev-dependencies]
+# Evidence-ledger check: PE section ranges of the sample image and the TOML ledgers.
+object = { version = "0.40", default-features = false, features = ["read_core", "pe", "std"] }
+serde = { version = "1", features = ["derive"] }
+toml = { version = "1", default-features = false, features = ["parse", "serde"] }
+tempfile = "3"
+# Integration tests enable the optional mocks through the self dev-dependency; plain builds keep them off.
+libam = { path = ".", features = ["mock"] }
+backend = { workspace = true, features = ["mock"] }

@@ -1,0 +1,83 @@
+[package]
+name = "backend"
+description = "The external interfaces of amdaemon and libam: the game process, OS services, network, devices and vendor DLLs"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+# Test doubles of every interface (`mock`): never enabled in a release build, only by dev-dependencies.
+mock = []
+
+[dependencies]
+# Value types of the interface signatures (`DateTime`, `Tm`).
+libam-api.workspace = true
+thiserror = "2"
+# Default HTTP(S) client on worker threads (`http.rs`). HTTPS goes through the system's TLS library
+# (`native-tls`, SChannel on Windows) with the system root store, like the original's WinHTTP.
+ureq = { version = "3", default-features = false, features = ["native-tls-no-default"] }
+# ALL.Net TLS client (`tls.rs`): the system's TLS library directly, on every target.
+native-tls = "0.2.18"
+# Directory links of the default file system (`fs.rs`); the Windows junction is `junction` below.
+symlink = "0.1"
+# amDns and alDns (`dns.rs`): an A lookup with the system DNS configuration. One resolver per lookup, so
+# nothing is cached; the hosts file is honoured. The current-thread runtime drives that lookup and its time limit.
+hickory-resolver = "0.26"
+tokio = { version = "1", default-features = false, features = ["rt", "time"] }
+# COM ports (`serial.rs`): the `serialport` crate, no `libudev` (port enumeration is not used). `\\.\COM<n>`
+# on Windows. A zero write timeout is the crate's "no timeout".
+serialport = { version = "4.10", default-features = false }
+
+[target.'cfg(windows)'.dependencies]
+# Windows implementation (`windows/`, the only place with `unsafe`): the registry goes through `winreg` (volatile key
+# creation, access masks, raw typed values); the IPC pipes, sections, mutexes and memory protection, the named value
+# mutexes, shutdown, privileges, the HID report calls, the driver `DeviceIoControl`s and the duplicate-address check
+# go through `windows-sys` because no maintained crate covers them.
+windows-sys = { version = "0.61", features = [
+    "Win32_Devices_HumanInterfaceDevice",
+    "Win32_Foundation",
+    "Win32_NetworkManagement_IpHelper",
+    "Win32_NetworkManagement_Ndis",
+    "Win32_Networking_WinSock",
+    "Win32_Security",
+    "Win32_Security_Cryptography",
+    "Win32_Storage_FileSystem",
+    "Win32_System_IO",
+    "Win32_System_Memory",
+    "Win32_System_Pipes",
+    "Win32_System_Shutdown",
+    "Win32_System_SystemInformation",
+    "Win32_System_Threading",
+    "Win32_System_Time",
+    "Win32_System_WindowsProgramming",
+] }
+winreg = "0.56"
+# Service control manager (`windows/services.rs`): user-defined control codes through `Service::notify`.
+windows-service = "0.8"
+# USB I/O board HID transport (`windows/hid.rs`): the pure-Rust `windows-native` backend, no C toolchain.
+hidapi = { version = "2.6", default-features = false, features = ["windows-native"] }
+# `ThincaPayment.dll` (`windows/thinca.rs`) and the vendor video DLL (`windows/video.rs`), bound at run time.
+libloading = "0.9"
+# NTFS junction of the APM log folder link (`windows/fs.rs`).
+junction = "2.1"
+# Module image ranges of the process that the preloader pages in (`windows/preload.rs`); the FreeBSD-only bindgen
+# step stays off.
+proc-maps = { version = "0.5", default-features = false }
+# One-byte reads from those ranges in another process (`windows/preload.rs`).
+read-process-memory = "0.2"
+# Adapter enumeration and read-back (`windows/adapters.rs`): ifIndex, GUID name, MAC, type, operational state,
+# IPv4 + prefix, DHCP flag. `gateway` stays off: it would ARP-resolve every gateway while enumerating on the frame
+# thread.
+netdev = { version = "0.46", default-features = false }
+# Gateways and DNS servers of the chosen adapter (the read-back of `GetAdaptersAddresses`).
+ipconfig = "0.3"
+# ICMP echo with a TTL and a timeout (`windows/icmp.rs`): the altr traceroute.
+winping = "0.10"
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }

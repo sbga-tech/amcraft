@@ -1,0 +1,70 @@
+[package]
+name = "amdaemon"
+description = "Faithful Rust recreation of the amdaemon 2024 IPC protocol and daemon behaviour"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+# External process, service and device interfaces shared with libam.
+backend.workspace = true
+# Controller-facing libam contracts.
+libam-api.workspace = true
+# libam, where every controller port, the interface and the configuration loader come from.
+libam.workspace = true
+# Zero-copy views and derives for protocol byte layouts.
+zerocopy = { version = "0.8", features = ["derive", "alloc"] }
+# Checked fixed-layout schemas for the shared-memory blocks. Not on crates.io yet; Cargo.lock pins the commit.
+zero-schema = { git = "https://github.com/oshinop/zero-schema", features = ["alloc"] }
+# Fixed UTF-16 protocol strings and owned Win32 console strings.
+widestring = { version = "1.2", default-features = false, features = ["alloc"] }
+# Bounded protocol buffers without heap allocation.
+arrayvec = { version = "0.7", default-features = false }
+# Checked conversions of protocol discriminants.
+num_enum = { version = "0.7", default-features = false }
+# Typed protocol and lifecycle errors.
+thiserror = "2"
+# Checksums of published protocol blocks.
+crc32fast = "1"
+# Messenger session key agreement.
+p256 = { version = "0.13", default-features = false, features = ["ecdh"] }
+# Session key derivation.
+sha2 = "0.10"
+# Authenticated Messenger encryption.
+aes-gcm = { version = "0.10", default-features = false, features = ["aes"] }
+# Structured diagnostics emitted by controllers and the daemon.
+tracing.workspace = true
+# The daemon's log: file and console output of every `tracing` event, timestamps in local time through chrono.
+tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt", "std", "chrono", "env-filter"] }
+# OS entropy for ephemeral Messenger session keys.
+rand_core = { version = "0.6", features = ["getrandom"] }
+# Cross-platform single-instance guard for the daemon's own process.
+named-lock = "0.4"
+
+[dev-dependencies]
+# Temporary cabinet and executable directories of the daemon-through-libam test.
+tempfile = "3"
+# Doubles of external IPC interfaces, compiled for tests only.
+backend = { workspace = true, features = ["mock"] }
+# libam protocol emulators and healthy-cabinet assembly for the daemon-through-libam test.
+libam = { workspace = true, features = ["mock"] }
+
+[target.'cfg(windows)'.dependencies]
+# Win32 APIs required only by the daemon's internal hidden window and process console.
+windows-sys = { version = "0.61", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Gdi",
+    "Win32_Storage_FileSystem",
+    "Win32_System_Console",
+    "Win32_System_LibraryLoader",
+    "Win32_UI_WindowsAndMessaging",
+] }
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+missing_debug_implementations = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
