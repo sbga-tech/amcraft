@@ -16,11 +16,11 @@ use crate::manager::Manager;
 use crate::schema::usb_device::{
     ClientUsbDeviceRef, ServerReconnectMut, ServerReconnectPatch, UsbDeviceReconnectResult, UsbDeviceTask,
 };
-use libam_api::result::{AmError, AmResult};
-use libam_api::usb_device::{UsbDeviceAppConfig, UsbDeviceEvent, UsbDeviceId, UsbDevicePort, UsbRequired};
+use libam::result::{AmError, AmResult};
+use libam::usbio::{UsbDeviceAppConfig, UsbDeviceEvent, UsbDeviceId, UsbDevicePort, UsbRequired};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
-use libam_api::config::AppConfig;
+use libam::config::AppConfig;
 
 /// `amdaemon::server::UsbDeviceController` (object size `0x90`).
 pub struct UsbDeviceController {
@@ -270,7 +270,7 @@ mod tests {
     use std::cell::RefCell;
     use std::rc::Rc;
 
-    use libam_api::sequence::ProcessState;
+    use libam::sequence::ProcessState;
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;

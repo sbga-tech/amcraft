@@ -10,7 +10,6 @@ license = "MIT"
 publish = false
 
 [workspace.dependencies]
-libam-api = { path = "crates/libam-api" }
 libam = { path = "crates/libam" }
 backend = { path = "crates/backend" }
 # Diagnostics of libam and the daemon; the daemon binary installs the subscriber.

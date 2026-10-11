@@ -3,9 +3,9 @@
 
 use std::collections::VecDeque;
 
-use libam_api::aime::AccessCode;
-use libam_api::aime_pay::{AimePayDeal, AimePayLocation, AimePaySummaryItem, AimePayUserSetting};
-use libam_api::time::Tm;
+use crate::aime::AccessCode;
+use crate::aimepay::{AimePayDeal, AimePayLocation, AimePaySummaryItem, AimePayUserSetting};
+use crate::time::Tm;
 
 use crate::util::wide_array;
 

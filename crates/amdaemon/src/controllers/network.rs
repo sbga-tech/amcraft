@@ -17,13 +17,13 @@ use crate::schema::network::{
     ServerTestItemPatch, ServerTestMut, ServerTestPatch, TEST_ITEM_COUNT,
 };
 use crate::schema::shared::ErrorDataPatch;
-use libam_api::network::{NetworkPort, NetworkProperty, NetworkTestEvent, TestItem, TestStatus};
-use libam_api::result::{AmError, AmResult};
-use libam_api::sequence::ProcessState;
+use libam::network::{NetworkPort, NetworkProperty, NetworkTestEvent, TestItem, TestStatus};
+use libam::result::{AmError, AmResult};
+use libam::sequence::ProcessState;
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
 use crate::controllers::error::publish_fatal_error;
-use libam_api::config::{AppConfig, ProcessConfig};
+use libam::config::{AppConfig, ProcessConfig};
 
 /// `ServerTestData.items` slot of the ALL.Net Air pseudo item: it has no libam checker and is driven by the
 /// process configuration (§2.6.3) and the test-start / test-finished events.
@@ -403,8 +403,8 @@ mod tests {
     use crate::controllers::controller::ControllerSlot;
     use crate::controllers::controller::testing::Harness;
     use crate::schema::network::ClientNetworkPatch;
-    use libam_api::error::FatalError;
-    use libam_api::time::Tm;
+    use libam::error::FatalError;
+    use libam::time::Tm;
 
     const IDLE: u32 = 0;
     const RUNNING: u32 = 1;

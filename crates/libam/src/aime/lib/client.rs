@@ -18,11 +18,11 @@
 
 use std::sync::Arc;
 
-use libam_api::aime::{
+use crate::aime::{
     AimeEvent, CAMPAIGN_NAME_UNITS, CampaignInfoEntry, CampaignInfoList, CampaignProgressEntry, CampaignProgressList,
     FinishedStatus, FinishedTask, LibamAimeId,
 };
-use libam_api::time::Tm;
+use crate::time::Tm;
 
 use super::{AimeLib, BoardInfo, LibConfig, LibManager, LogEntry, Op, PollKind, RawCampaignInfo};
 use backend::aime_db::AimeDbTransport;

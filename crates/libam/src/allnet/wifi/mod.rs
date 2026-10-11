@@ -10,13 +10,12 @@
 
 mod port;
 
-use libam_api::allnet::WifiUnit;
-use libam_api::am_config::AllnetWifiConfig;
+use crate::config::AllnetWifiConfig;
 use serde_json::Value;
 
 use crate::module::Cx;
 
-pub use port::WifiHandle;
+pub use port::{WiFiPort, WifiHandle, WifiUnit};
 
 /// Capacity of the unit table.
 const MAX_UNITS: usize = 10;

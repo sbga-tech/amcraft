@@ -21,16 +21,17 @@ mod book;
 mod port;
 mod refresh;
 
-use libam_api::am_config::SequenceCfg;
-use libam_api::backup::GameId;
-use libam_api::interface::LibamEvent;
-use libam_api::sequence::{BookkeepingTotals, HistogramRow, ProcessState};
+use crate::config::SequenceCfg;
+use crate::interface::LibamEvent;
 
 use crate::module::{Cx, ErrorCell, EventQueue, Lifecycle, StateWord};
-use crate::nvram::{NvramContext, Record, RecordStatus};
+use crate::nvram::{GameId, NvramContext, Record, RecordStatus};
 use book::{CountedPlay, Published, Work, elapsed};
 
-pub use port::SequenceHandle;
+pub use port::{
+    AimeLogStatus, BookkeepingTotals, CREDIT_AFFORDABLE, CREDIT_RULE_AIME_AMOUNT, HistogramRow, HistogramRule,
+    PlayAccountingTiming, ProcessState, SequenceConfig, SequenceHandle, SequencePort,
+};
 
 /// Number of play slots.
 const SLOTS: usize = 8;

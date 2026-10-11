@@ -8,8 +8,8 @@
 
 use std::net::Ipv4Addr;
 
-use libam_api::am_config::LanInstallConfig;
-use libam_api::interface::LibamEvent;
+use crate::config::LanInstallConfig;
+use crate::interface::LibamEvent;
 
 use super::deliver_beacon::BeaconContext;
 use super::deliver_icf::Icf;
@@ -505,7 +505,7 @@ mod tests {
     use std::net::{SocketAddrV4, UdpSocket};
     use std::time::Duration;
 
-    use libam_api::am_config::AmConfig;
+    use crate::config::AmConfig;
 
     use super::*;
     use crate::mock::SimBackend;

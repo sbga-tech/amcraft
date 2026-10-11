@@ -12,10 +12,10 @@ use crate::schema::sequence::{
     ClientSequenceRef, PLAYER_COUNT, PlayAccountingTiming, PlayErrorId, PlayInfo, SequenceBookkeepingPatch,
     SequenceTask, ServerPlayerDataPatch, TimeHistogramItemPatch,
 };
-use libam_api::sequence::{AimeLogStatus, CREDIT_AFFORDABLE, CREDIT_RULE_AIME_AMOUNT, SequencePort};
+use libam::sequence::{AimeLogStatus, CREDIT_AFFORDABLE, CREDIT_RULE_AIME_AMOUNT, SequencePort};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
-use libam_api::config::ProcessConfig;
+use libam::config::ProcessConfig;
 
 /// Invariant of every player-slot access: [`Operation::validate`] checked the index against `PLAYER_COUNT`.
 const VALIDATED_PLAYER: &str = "the player index was validated below PLAYER_COUNT";
@@ -24,12 +24,12 @@ const VALIDATED_PLAYER: &str = "the player index was validated below PLAYER_COUN
 const NO_AIME: u32 = 0xFFFF_FFFF;
 
 /// libam play accounting timing → `ServerData.sequence.playAccountingTiming` (config listener `0x1400468E0`).
-impl From<libam_api::sequence::PlayAccountingTiming> for PlayAccountingTiming {
-    fn from(timing: libam_api::sequence::PlayAccountingTiming) -> Self {
+impl From<libam::sequence::PlayAccountingTiming> for PlayAccountingTiming {
+    fn from(timing: libam::sequence::PlayAccountingTiming) -> Self {
         match timing {
-            libam_api::sequence::PlayAccountingTiming::Normal => Self::Normal,
-            libam_api::sequence::PlayAccountingTiming::Begin => Self::Begin,
-            libam_api::sequence::PlayAccountingTiming::End => Self::End,
+            libam::sequence::PlayAccountingTiming::Normal => Self::Normal,
+            libam::sequence::PlayAccountingTiming::Begin => Self::Begin,
+            libam::sequence::PlayAccountingTiming::End => Self::End,
         }
     }
 }
@@ -546,9 +546,9 @@ mod tests {
     use crate::schema::sequence::{
         ClientSequencePatch, PlayAccounting, ServerPlayerDataRef, ServerSequenceRef, TimeHistogramItem,
     };
-    use libam_api::result::{AmError, AmResult};
-    use libam_api::sequence::{BookkeepingTotals, HistogramRow, ProcessState};
-    use libam_api::time::Tm;
+    use libam::result::{AmError, AmResult};
+    use libam::sequence::{BookkeepingTotals, HistogramRow, ProcessState};
+    use libam::time::Tm;
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;

@@ -18,7 +18,8 @@ use crate::daemon::console::Console;
 use crate::daemon::log::LogPath;
 use crate::daemon::stdio;
 use crate::daemon::window::{MessagePump, MessageWindow};
-use libam_api::interface::{AmInterface, ConfigLoader};
+use libam::config::ConfigLoader;
+use libam::interface::AmInterface;
 
 /// `amdaemonExe Ver.91f83d14 Build:May 20 2024 11:28:48\n`: the banner printed first by `App::run`
 /// (`0x1405B2A79`), the console title (`0x140002A60`) and the hidden window's title.
@@ -395,11 +396,11 @@ impl Drop for App {
 #[cfg(test)]
 mod tests {
     use crate::manager::ManagerState;
-    use libam_api::sequence::ProcessState;
+    use libam::sequence::ProcessState;
 
     use super::*;
     use crate::mock::{self, Fixture, Trace};
-    use libam_api::interface::{CabinetAppConfig, LibamEvent, LoadCabinetTypeEvent};
+    use libam::interface::{CabinetAppConfig, LibamEvent, LoadCabinetTypeEvent};
 
     fn parser(args: &[&str]) -> ArgumentsParser {
         let mut parser = ArgumentsParser::new();
@@ -721,7 +722,7 @@ mod tests {
     #[test]
     fn manager_initialize_failure_skips_the_loop() {
         let mut fixture = Fixture::new();
-        fixture.interface.init = Some(Err(libam_api::result::AmError::code(2)));
+        fixture.interface.init = Some(Err(libam::result::AmError::code(2)));
         let trace = fixture.trace.clone();
         let mut app = app(fixture);
         assert_eq!(app.run(&parser(&[])), 1);

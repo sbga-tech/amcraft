@@ -1,7 +1,7 @@
 //! The disabled-feature state machine: setup, the re-arm and the shutdown (`jvs.md` 3).
 
-use libam_api::am_config::AmConfig;
-use libam_api::interface::LibamEvent;
+use crate::config::AmConfig;
+use crate::interface::LibamEvent;
 
 use super::*;
 use crate::mock::{SimBackend, SimClock};

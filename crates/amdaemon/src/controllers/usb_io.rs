@@ -20,14 +20,14 @@ use crate::schema::usb_io::{
     UsbIoAnalogInputPatch, UsbIoOutputInfoPatch, UsbIoRotaryInputMut, UsbIoRotaryInputPatch, UsbIoSwitchInputMut,
     UsbIoTask, UsbIoUniqueDescriptorPatch, UsbIoUniqueInputMut,
 };
-use libam_api::jvs::{AnalogState, RotaryState, SwitchState};
-use libam_api::usb_io::{
+use libam::jvs::{AnalogState, RotaryState, SwitchState};
+use libam::usbio::{
     FirmwareEvent, FirmwareStatus, UniqueCommand, UniqueDescriptors, UsbIoNodeInfo, UsbIoPort, UsbIoUniqueFunction,
 };
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
 use crate::controllers::jvs::MAX_NODES;
-use libam_api::config::{AppConfig, ProcessConfig};
+use libam::config::{AppConfig, ProcessConfig};
 
 /// Size argument of `sendGeneralOutput(bits, size)`: the value is always sent as eight bytes.
 const GENERAL_OUTPUT_SIZE: u64 = 8;
@@ -484,15 +484,15 @@ mod tests {
         ClientOutputInfo, ClientOutputInfoMut, ClientUsbIoRequestPatch, GeneralOutputRequestPatch, OUTPUT_INFO_SIZE,
         PwmOutputRequestPatch, ServerUsbIoNodeRef, UniqueOutputRequestPatch,
     };
-    use libam_api::result::{AmError, AmResult};
-    use libam_api::usb_io::{
+    use libam::result::{AmError, AmResult};
+    use libam::usbio::{
         UNIQUE_DATA_LEN, UNIQUE_INPUT_DATA_LEN, UniqueDescriptor, UsbIoNodeFunctions, UsbIoProcessConfig,
     };
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;
     use crate::controllers::controller::testing::Harness;
-    use libam_api::jvs::AnalogChannel;
+    use libam::jvs::AnalogChannel;
 
     /// Everything one fake node can report; `None` = libam answers `am::Result` code 1 for that getter.
     #[derive(Clone, Copy, Default)]

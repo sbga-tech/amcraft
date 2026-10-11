@@ -5,8 +5,8 @@
 //! byte, the flag bytes the cabinet-type fix-ups use) and watches the keychip afterwards. It raises error 949
 //! when the keychip is unusable and 4105 when the device cannot be opened.
 
-use libam_api::backup::GameId;
-use libam_api::system_info::LibamSerial;
+use crate::nvram::GameId;
+use crate::platform::LibamSerial;
 
 use super::keychip::{KeychipError, Link, Properties, SetupPoll};
 use super::serial::{Serial, is_valid_serial};

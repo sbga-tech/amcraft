@@ -6,8 +6,8 @@
 //! the error raise path (`0x140253370`), the idle/busy refresh (`0x140254C40`) and the error aggregator
 //! (`0x140253D30`, M.6).
 
-use libam_api::am_config::AmConfig;
-use libam_api::time::Tm;
+use crate::config::AmConfig;
+use crate::time::Tm;
 
 use crate::abaas::Abaas;
 use crate::aime::Aime;

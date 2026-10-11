@@ -34,20 +34,19 @@ pub mod wifi;
 
 use std::fmt;
 
-use libam_api::am_config::AllnetAuthConfig;
-use libam_api::backup::GameId;
-use libam_api::network::NetworkProperty;
-use libam_api::result::{AmError, AmResult};
+use crate::config::AllnetAuthConfig;
+use crate::nvram::GameId;
+use crate::result::{AmError, AmResult};
 
 use crate::clock::Clock;
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
 use crate::network::netdeliver::DeliverAuthParam;
-use crate::network::{AmNetwork, PropertyBuffer};
+use crate::network::{AmNetwork, NetworkProperty, PropertyBuffer};
 use crate::platform::keychip::Link;
 use netinfo::{NetClass, NetInfo};
 
 pub use billing::AccountingHandle;
-pub use port::{AirHandle, AuthHandle};
+pub use port::{AirHandle, AirPort, AirProcessConfig, AuthHandle, AuthLocation, AuthPort, TimeSlot};
 pub use wifi::WifiHandle;
 
 use services::KeychipIdentity;
@@ -381,7 +380,7 @@ impl Allnet {
             return Err(AmError::code(AmError::FAILED));
         }
         if self.billing.mode() != 0 {
-            let (major, minor, _) = libam_api::apm::version_parts(version_raw);
+            let (major, minor, _) = crate::apm::version_parts(version_raw);
             self.apm_game_id = Some(game_id.to_string());
             self.apm_version = Some(if version_raw == 0 { "--.--".to_owned() } else { format!("{major}.{minor:02}") });
         }

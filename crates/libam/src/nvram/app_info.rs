@@ -5,8 +5,8 @@
 //! first, bracketed by journal updates, so one valid copy always exists; the setup state machine replays an
 //! unfinished save after a crash.
 
-use libam_api::am_config::NvramConfig;
-use libam_api::backup::GameId;
+use crate::config::NvramConfig;
+use crate::nvram::GameId;
 
 use super::device::Device;
 use super::{APP_INFO_LOADED, NvramContext, Record, RecordStatus};

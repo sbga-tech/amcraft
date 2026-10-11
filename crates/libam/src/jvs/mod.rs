@@ -29,12 +29,18 @@ mod port;
 #[cfg(test)]
 mod tests;
 
-use libam_api::am_config::JvsConfig;
+use crate::config::JvsConfig;
 
 use crate::credit::CoinSlots;
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
 
-pub use port::{JvsHandle, JvsNodeHandle};
+pub(crate) use port::clamp_len;
+pub use port::{
+    AnalogChannel, AnalogState, CONFIG_BLOCKS, InputConfig, InputDevice, InputPort, InputRelation, JvsHandle,
+    JvsNodeHandle, JvsNodeInput, JvsNodePort, JvsPort, MAX_JVS_NODES, MAX_RELATIONS, OutputConfig, OutputDevice,
+    OutputPort, OutputRelation, PLAYER_SETS, RelationBlock, RelationMap, RelationSet, RotaryState, SwitchState,
+    TooManyRelations,
+};
 
 /// The module error number of the "not supported" setup; also the generic "configuration invalid" number
 /// [jvs.error.invalid_config_same_code].
@@ -75,7 +81,7 @@ impl Jvs {
         self.life.error.set(NOT_SUPPORTED_ERROR, 0);
         self.life.state = StateWord::FAILED;
         if self.config.detect_node_listener {
-            cx.events.push(libam_api::interface::LibamEvent::JvsDetectNode);
+            cx.events.push(crate::interface::LibamEvent::JvsDetectNode);
         }
     }
 

@@ -23,9 +23,8 @@ mod sms;
 mod terminal;
 mod thinca;
 
-use libam_api::am_config::EMoneyConfig;
-use libam_api::emoney::{EMoneyBrandInfo, EMoneyEvent, LibamBrand};
-use libam_api::time::Tm;
+use crate::config::EMoneyConfig;
+use crate::time::Tm;
 
 use crate::display::{Display, Lane};
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
@@ -39,7 +38,10 @@ use flows::Flow;
 
 pub use card::{CardPoll, CardRead, Lease, StoreCard};
 pub use link::{CoinGate, CreditLink, NoCredit};
-pub use port::EMoneyHandle;
+pub use port::{
+    EMoneyAppConfig, EMoneyBrandInfo, EMoneyDealInfo, EMoneyEvent, EMoneyHandle, EMoneyPort, EMoneyProcessConfig,
+    LibamBrand, non_empty,
+};
 
 /// What the Manager frame needs from other modules (`0x14029D590` builds them in the original).
 #[derive(Debug, Clone)]
@@ -522,7 +524,7 @@ impl EMoney {
 
     /// `0x14022F1E0` (step 14): the 4-letter game id for the deal-info identity (9.4). Effective only while enabled,
     /// ready, the mode is non-zero and no deal info is pending.
-    pub fn apm_change(&mut self, game_id: libam_api::backup::GameId) {
+    pub fn apm_change(&mut self, game_id: crate::nvram::GameId) {
         if self.config.enable && self.life.state == StateWord::READY && self.mode != 0 && self.saved_deal_info {
             self.title = Some(game_id.to_string());
         }
@@ -648,7 +650,7 @@ impl EMoney {
         self.ring.count()
     }
 
-    pub(crate) fn deal_log_item(&self, index: usize) -> Option<libam_api::emoney::EMoneyDealInfo> {
+    pub(crate) fn deal_log_item(&self, index: usize) -> Option<crate::emoney::EMoneyDealInfo> {
         self.ring.item(index)
     }
 

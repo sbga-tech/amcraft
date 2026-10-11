@@ -6,8 +6,8 @@
 use std::sync::LazyLock;
 use std::time::{Duration, Instant};
 
+use crate::time::DateTime;
 use chrono::{Datelike, Local, Timelike};
-use libam_api::time::DateTime;
 
 /// Time as libam reads it (spec `platform.md` part D, `core.md` M.3): modules never call the OS directly.
 pub trait Clock {

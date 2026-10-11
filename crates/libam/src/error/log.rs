@@ -9,7 +9,7 @@
 //! converts the local time to UTC with the system time zone before it stores it (`LocalFileTimeToFileTime`) and
 //! back when it reads it; the backend's clock carries no time zone, so local times round-trip unchanged (inferred).
 
-use libam_api::time::Tm;
+use crate::time::Tm;
 
 use crate::nvram::{NvramContext, Record, RecordStatus};
 

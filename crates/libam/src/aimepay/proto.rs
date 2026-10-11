@@ -8,7 +8,7 @@
 
 use std::fmt;
 
-use libam_api::time::Tm;
+use crate::time::Tm;
 use serde::de::{Deserialize, Deserializer, MapAccess, SeqAccess, Visitor};
 use serde_json::Value;
 
@@ -571,7 +571,7 @@ pub fn parse_date(text: &str, fields: usize) -> Option<Tm> {
     if !(1970..=3000).contains(&year) {
         return None;
     }
-    let time = libam_api::time::DateTime::make(year, month, day, hour, minute, second, 0)?;
+    let time = crate::time::DateTime::make(year, month, day, hour, minute, second, 0)?;
     let tm = tm_from_date_time(time);
     let round_trip =
         (tm.year + 1900, tm.mon + 1, tm.mday, tm.hour, tm.min, tm.sec) == (year, month, day, hour, minute, second);

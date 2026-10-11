@@ -10,7 +10,7 @@
 use crate::executor::{RequestExecutor, RequestState};
 use crate::manager::Manager;
 use crate::schema::board_io::{ClientLedRequestRef, LedCommand, ServerBoardIoPatch};
-use libam_api::board_io::BoardIoPort;
+use libam::usbio::BoardIoPort;
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, settle_check};
 
@@ -142,8 +142,8 @@ mod tests {
     use std::rc::Rc;
 
     use crate::schema::board_io::ClientLedRequestPatch;
-    use libam_api::result::{AmError, AmResult};
-    use libam_api::sequence::ProcessState;
+    use libam::result::{AmError, AmResult};
+    use libam::sequence::ProcessState;
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;

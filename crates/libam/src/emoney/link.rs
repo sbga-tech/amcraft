@@ -2,7 +2,7 @@
 //! PayEmCmd task 5): the credit gate `0x1402536E0` in front of `coinPay` and `credit.addCoin` (`0x14022BAC0`) at the
 //! end of a paid coin deal.
 
-use libam_api::result::{AmError, AmResult};
+use crate::result::{AmError, AmResult};
 
 use crate::credit::Credit;
 

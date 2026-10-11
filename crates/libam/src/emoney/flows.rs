@@ -2,8 +2,8 @@
 //! operations that start them (PayEmMgr). Command objects of the original are the [`Kind`] variants here; the
 //! SDK callbacks reach them through the poll, one element per ring per frame.
 
-use libam_api::emoney::{EMoneyDealInfo, EMoneyEvent, LibamBrand};
-use libam_api::result::{AmError, AmResult};
+use crate::emoney::{EMoneyDealInfo, EMoneyEvent, LibamBrand};
+use crate::result::{AmError, AmResult};
 
 use super::card::{self, CardPoll, CardRefusal};
 use super::deal_log::{self, DealRecord, FLAG_CASH};

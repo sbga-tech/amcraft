@@ -4,9 +4,9 @@
 
 use std::net::Ipv4Addr;
 
-use libam_api::allnet::{AuthLocation, TimeSlot};
-use libam_api::am_config::AllnetAuthConfig;
-use libam_api::time::{DateTime, Tm};
+use crate::allnet::{AuthLocation, TimeSlot};
+use crate::config::AllnetAuthConfig;
+use crate::time::{DateTime, Tm};
 
 use super::abex::{Mode, Notice, ServerTime, Session};
 use super::alauth::{self, AlAuth, Env, Kind, State};

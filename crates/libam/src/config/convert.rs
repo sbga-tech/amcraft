@@ -8,12 +8,12 @@
 
 use std::fmt;
 
-use libam_api::am_config::{
+use super::am_config::{
     self as am, AllnetVersion, AmConfig, BoundedList, CanBoard, CanNode, JvsNode as AmJvsNode, Pair, UNSET_U32,
     UNSET_U64, UniqueCmd, WideStr,
 };
-use libam_api::interface::CabinetAppConfig;
-use libam_api::usb_device::UsbRequired;
+use crate::interface::CabinetAppConfig;
+use crate::usbio::UsbRequired;
 
 use super::Config;
 
@@ -386,7 +386,7 @@ fn network(src: &Source<'_>, out: &mut AmConfig) -> Outcome {
     // deny 0, require 1, allow 2.
     network.location_router_directly = section.location_router_directly as u32;
     if let Some(property) = section.property {
-        network.property = Some(libam_api::network::NetworkProperty {
+        network.property = Some(crate::network::NetworkProperty {
             dhcp: property.dhcp,
             address: property.ip_address,
             subnet_mask: property.subnet_mask,

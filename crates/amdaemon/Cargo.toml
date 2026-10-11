@@ -10,9 +10,8 @@ publish.workspace = true
 [dependencies]
 # External process, service and device interfaces shared with libam.
 backend.workspace = true
-# Controller-facing libam contracts.
-libam-api.workspace = true
-# libam, where every controller port, the interface and the configuration loader come from.
+# libam: the facades the controllers, the interface and the configuration loader are built against, and their
+# default implementation.
 libam.workspace = true
 # Zero-copy views and derives for protocol byte layouts.
 zerocopy = { version = "0.8", features = ["derive", "alloc"] }

@@ -16,8 +16,8 @@
 
 use std::path::PathBuf;
 
-use libam_api::am_config::AmConfig;
-use libam_api::error::{FATAL_MESSAGE_UNITS, FatalError};
+use crate::config::AmConfig;
+use crate::error::{FATAL_MESSAGE_UNITS, FatalError};
 use serde_json::Value;
 
 use backend::Fs;

@@ -61,7 +61,6 @@ dependencies = [
  "backend",
  "crc32fast",
  "libam",
- "libam-api",
  "named-lock",
  "num_enum",
  "p256",
@@ -123,7 +122,6 @@ dependencies = [
  "hidapi",
  "ipconfig",
  "junction",
- "libam-api",
  "libloading 0.9.0",
  "native-tls",
  "netdev",
@@ -1285,7 +1283,6 @@ dependencies = [
  "getrandom 0.4.3",
  "hmac",
  "libam",
- "libam-api",
  "md-5",
  "object",
  "quanta",
@@ -1299,13 +1296,6 @@ dependencies = [
  "toml",
  "tracing",
  "x509-cert",
-]
-
-[[package]]
-name = "libam-api"
-version = "0.1.0"
-dependencies = [
- "thiserror 2.0.21",
 ]
 
 [[package]]

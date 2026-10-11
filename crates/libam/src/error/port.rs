@@ -1,6 +1,8 @@
-//! `am::FatalError`: the error records libam raises and keeps in its history rings.
+//! The error facade (`am::FatalError`): the error records libam raises and keeps in its history rings,
+//! [`ErrorPort`], and libam's [`ErrorHandle`] over the error manager.
 
-use crate::result::AmResult;
+use crate::result::{AmError, AmResult};
+use crate::shared::Shared;
 use crate::time::Tm;
 
 /// Units of the libam message buffer (`wchar_t[128]` at item `+0x28`).
@@ -102,4 +104,51 @@ pub trait ErrorPort {
 
     /// Occurrence table `get(i)` (`0x140224A70`).
     fn times_item(&self, index: u32) -> AmResult<ErrorOccurrence>;
+}
+
+/// `ErrorPort` over the shared state.
+#[derive(Debug)]
+pub struct ErrorHandle(pub(crate) Shared);
+
+impl ErrorPort for ErrorHandle {
+    fn error_facade_available(&self) -> bool {
+        self.0.guard().is_ok()
+    }
+
+    fn language(&self) -> Option<[u16; 16]> {
+        self.0.guard().ok()?;
+        Some(self.0.read(|core| core.error.language()))
+    }
+
+    fn reset(&mut self) {
+        self.0.with(|core| core.reset_error());
+    }
+
+    fn set(&mut self, number: u16, sub_number: u16) {
+        self.0.with(|core| core.raise_error(number, sub_number));
+    }
+
+    fn clear_logs(&mut self) {
+        self.0.with(|core| core.error.clear_logs(&core.nvram));
+    }
+
+    fn history_count(&self, ring: HistoryRing) -> u32 {
+        self.0.read(|core| core.error.ring(ring).len() as u32)
+    }
+
+    fn history_item(&self, ring: HistoryRing, index: u32) -> AmResult<FatalError> {
+        self.0
+            .read(|core| core.error.ring(ring).get(index as usize).cloned())
+            .ok_or_else(|| AmError::with_message(1, "Invalid num"))
+    }
+
+    fn times_count(&self) -> u32 {
+        self.0.read(|core| core.error.table.len() as u32)
+    }
+
+    fn times_item(&self, index: u32) -> AmResult<ErrorOccurrence> {
+        self.0
+            .read(|core| core.error.table.get(index as usize).map(|&(number, times)| ErrorOccurrence { number, times }))
+            .ok_or_else(|| AmError::with_message(1, "Invalid num"))
+    }
 }

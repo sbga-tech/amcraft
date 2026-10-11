@@ -5,7 +5,7 @@
 //! state changes (`spec/controllers/process_common_systeminfo.md` §3). It has no executor, is never busy and
 //! does not accept requests.
 
-use libam_api::system_info::{LibamSerial, SystemInfoPort};
+use libam::platform::{LibamSerial, SystemInfoPort};
 
 use crate::schema::system_info::{Resolution, SerialIdMut, SerialIdPatch, ServerSystemInfoPatch};
 use crate::schema::text::fit_wide;
@@ -183,9 +183,9 @@ mod tests {
     use std::cell::RefCell;
     use std::rc::Rc;
 
-    use libam_api::result::{AmError, AmResult};
-    use libam_api::sequence::ProcessState;
-    use libam_api::system_info::VideoResolution;
+    use libam::platform::VideoResolution;
+    use libam::result::{AmError, AmResult};
+    use libam::sequence::ProcessState;
     use widestring::U16CStr;
 
     use super::*;

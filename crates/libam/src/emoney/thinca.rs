@@ -2,8 +2,8 @@
 //! reading of the result objects the SDK hands its callbacks. The SDK boundary itself (the trait, the result
 //! objects and the callback rings) is the backend interface [`backend::thinca`].
 
-use libam_api::emoney::EMoneyDealInfo;
-use libam_api::time::Tm;
+use crate::emoney::EMoneyDealInfo;
+use crate::time::Tm;
 
 use backend::thinca::{SdkDetail, SdkResult, kind};
 
@@ -81,7 +81,7 @@ impl ResultRecord {
         match (detail.kind, detail.type_) {
             (1, 1) => {
                 if let Some(time) = detail.time {
-                    deal.time = time;
+                    deal.time = Tm::from(time);
                 }
                 crate::emoney::deal_log::set_card(deal, &detail.card);
                 deal.amount = detail.amount;
@@ -95,7 +95,7 @@ impl ResultRecord {
             }
             (1, 3) | (2, 3) if detail.kind == 1 || detail.status != 3 => {
                 if let Some(time) = detail.time {
-                    deal.time = time;
+                    deal.time = Tm::from(time);
                 }
                 crate::emoney::deal_log::set_card(deal, &detail.card);
                 deal.amount = detail.amount;
@@ -106,7 +106,7 @@ impl ResultRecord {
             }
             (1, 5) => {
                 if let Some(time) = detail.time {
-                    deal.time = time;
+                    deal.time = Tm::from(time);
                 }
                 crate::emoney::deal_log::set_card(deal, &detail.card);
                 deal.amount = 0;

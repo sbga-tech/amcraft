@@ -1,11 +1,11 @@
 //! The disabled-feature JVS and CAN managers through the public ports (`spec/libam/jvs.md`, `spec/libam/can.md` 2).
 
 use libam::Libam;
+use libam::can::CanPacket;
+use libam::config::WideStr;
+use libam::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
 use libam::mock::{SIMULATED_RESOURCE_PATH, SimBackend};
-use libam_api::am_config::WideStr;
-use libam_api::can::CanPacket;
-use libam_api::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
-use libam_api::result::AmError;
+use libam::result::AmError;
 use tempfile::TempDir;
 
 struct Cabinet {

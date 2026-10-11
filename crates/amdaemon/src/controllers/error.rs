@@ -15,7 +15,7 @@ use crate::schema::error::{
 };
 use crate::schema::shared::{ErrorDataMut, ErrorDataPatch, ErrorResetType as SchemaResetType};
 use crate::schema::text::fit_wide;
-use libam_api::error::{ErrorOccurrence, ErrorPort, FatalError, HistoryRing};
+use libam::error::{ErrorOccurrence, ErrorPort, FatalError, HistoryRing};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
 
@@ -278,13 +278,13 @@ mod tests {
     use crate::schema::error::{ClientErrorPatch, ErrorTimesItem, HistoryLogRef, ServerErrorRef};
     use crate::schema::image::ServerImage;
     use crate::schema::shared::ErrorResetType;
-    use libam_api::result::{AmError, AmResult};
+    use libam::result::{AmError, AmResult};
     use widestring::U16CStr;
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;
     use crate::controllers::controller::testing::{Harness, civil};
-    use libam_api::time::Tm;
+    use libam::time::Tm;
 
     // `ServerData.error` (`+0x56B0`) and its fields, read raw to compare whole records and the bytes between them.
     const BLOCK: usize = 0x56B0;

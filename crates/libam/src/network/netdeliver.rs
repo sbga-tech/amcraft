@@ -1,11 +1,11 @@
 //! NetDeliver (`am::netdeliver::Manager`, `spec/libam/network.md` part D): the manager that starts and stops the
 //! download engine ([`Fetcher`]) and publishes its records.
 
-use libam_api::am_config::NetDeliverConfig;
-use libam_api::app_image::{AppImageProperty, PropertyKind};
-use libam_api::net_delivery::{DELIVERY_SOURCE_CAPACITY, DownloadProgress, ImageInfo, ImageKind, TimeInfo};
-use libam_api::result::{AmError, AmResult};
-use libam_api::time::Tm;
+use crate::appimage::{AppImageProperty, PropertyKind};
+use crate::config::NetDeliverConfig;
+use crate::network::{DELIVERY_SOURCE_CAPACITY, DownloadProgress, ImageInfo, ImageKind, TimeInfo};
+use crate::result::{AmError, AmResult};
+use crate::time::Tm;
 
 use super::deliver_fetcher::{APP, AuthParams, DownloadUi, DownloadUiParams, Fetcher, Io, Item, OPT, utc_seconds};
 use crate::master::Master;

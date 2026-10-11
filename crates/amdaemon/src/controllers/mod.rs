@@ -1,7 +1,7 @@
 //! The 27 amdaemon 2024 controllers (`amdaemon::server::*Controller`).
 //!
 //! Each module owns one controller. Every call the original makes into the statically linked `am::` library goes
-//! through a [`libam_api`] port the controller is given.
+//! through a [`libam`] facade trait (a port) the controller is given.
 
 pub mod controller;
 

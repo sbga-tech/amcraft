@@ -2,7 +2,7 @@
 //! lifecycle, the lockout with its cooldown, the fault supervision and the coin counter cross-check against the
 //! I/O board.
 
-use libam_api::am_config::CreditAs6db;
+use crate::config::CreditAs6db;
 
 use super::driver::{Driver, Faults};
 use crate::clock::Clock;

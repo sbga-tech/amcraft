@@ -6,7 +6,7 @@
 
 use crate::schema::allnet::{MAX_WIFI_UNITS, ServerWiFiPatch, ServerWiFiUnitMut, ServerWiFiUnitPatch};
 use crate::schema::text::fit_wide;
-use libam_api::allnet::{WiFiPort, WifiUnit};
+use libam::allnet::wifi::{WiFiPort, WifiUnit};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx};
 
@@ -107,7 +107,7 @@ mod tests {
 
     use widestring::U16CStr;
 
-    use libam_api::result::{AmError, AmResult};
+    use libam::result::{AmError, AmResult};
 
     use super::*;
     use crate::controllers::controller::testing::Harness;

@@ -3,7 +3,7 @@
 //! status kind 1, asks for a download order whenever the authentication finished or the last order failed long
 //! enough ago, and keeps the `uri=` text NetDeliver reads as its key.
 
-use libam_api::am_config::NetDeliverConfig;
+use crate::config::NetDeliverConfig;
 
 use super::auth::Auth;
 

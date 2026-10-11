@@ -1,7 +1,7 @@
 //! The download instruction (DLI) file of the fetcher (`spec/libam/network.md` D.10.5): an INI file with the
 //! `[COMMON]` keys and the image lists `INSTALL<n>` / `EXIST<n>`.
 
-use libam_api::time::DateTime;
+use crate::time::DateTime;
 
 use super::deliver_image::{ImageName, parse_image_filename};
 

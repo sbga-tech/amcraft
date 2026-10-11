@@ -14,9 +14,10 @@ use crate::schema::allnet::{
     AccountingPlayCountItemPatch, AccountingPlayCountPatch, AccountingTask, ClientAccountingRef, ServerAccounting,
     ServerAccountingPatch, ServerAccountingResponseMut,
 };
-use libam_api::allnet::{AccountingPort, PlayCountItem, TimeSlot};
-use libam_api::result::{AmError, AmResult};
-use libam_api::time::DateTime;
+use libam::allnet::TimeSlot;
+use libam::allnet::billing::{AccountingPort, PlayCountItem};
+use libam::result::{AmError, AmResult};
+use libam::time::DateTime;
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
 
@@ -325,8 +326,8 @@ mod tests {
     use crate::controllers::controller::ControllerSlot;
     use crate::controllers::controller::testing::{Harness, civil};
     use crate::schema::allnet::{ServerAccountingRef, ServerAccountingResponsePatch};
-    use libam_api::allnet::{AccountingInfo, PlayCountInfo};
-    use libam_api::time::Tm;
+    use libam::allnet::billing::{AccountingInfo, PlayCountInfo};
+    use libam::time::Tm;
 
     /// A libam call that changes state.
     #[derive(Debug, Clone, PartialEq, Eq)]

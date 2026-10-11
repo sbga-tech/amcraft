@@ -1,7 +1,7 @@
 //! The bookkeeping data of the sequence manager: the working totals block (`sequence.md` 2.5) and the published
 //! object (2.6) with the flush, publish and rebuild rules of 3.3 and 3.4.
 
-use libam_api::sequence::{BookkeepingTotals, HistogramRow};
+use crate::sequence::{BookkeepingTotals, HistogramRow};
 
 /// 32-bit words of the working block.
 const WORDS: usize = 71;

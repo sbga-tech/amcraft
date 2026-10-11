@@ -4,7 +4,7 @@
 
 use std::net::Ipv4Addr;
 
-use libam_api::time::CivilTime;
+use crate::time::CivilTime;
 
 use super::records::Stamp;
 

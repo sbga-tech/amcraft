@@ -45,14 +45,12 @@ mod tests;
 
 use std::path::{Path, PathBuf};
 
-use libam_api::backup::GameId;
-
 use crate::registry_keys::MOUNT_KEY;
 use backend::{Backend, KeyMode, RegValue};
 
 pub use app_info::{AppInfoManager, SetupInputs};
 pub use device::{ALIGNMENT, Device};
-pub use port::BackupHandle;
+pub use port::{BackupHandle, BackupPort, GameId, NvramDevice};
 pub use records::{Record, RecordError, RecordStatus};
 
 use device::DeviceFile;

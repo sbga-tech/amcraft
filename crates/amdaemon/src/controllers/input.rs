@@ -18,12 +18,12 @@ use crate::schema::input::{
     ServerInputMut, ServerInputRef, UsbInfoPatch,
 };
 use crate::schema::text::fit_wide_str;
-use libam_api::input::{
+use libam::jvs::{
     CONFIG_BLOCKS, InputDevice, InputPort, InputRelation, JvsNodePort, MAX_JVS_NODES, RelationBlock, RelationMap,
 };
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx};
-use libam_api::config::ProcessConfig;
+use libam::config::ProcessConfig;
 
 /// The merge of two sets would hold more than 64 relations.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -40,7 +40,7 @@ pub trait ConfigBlock {
     type Ref<'w>;
     /// Write view of the block.
     type Mut<'w>;
-    /// Relation of the libam-api model this block compiles from.
+    /// Relation of the libam model this block compiles from.
     type Relation;
 
     /// Read view of `storage`.
@@ -49,7 +49,7 @@ pub trait ConfigBlock {
     /// Write view of `storage`.
     fn view_mut(storage: &mut Self::Storage) -> Self::Mut<'_>;
 
-    /// Compiles the libam-api model of one block into `dst`: clears it, then writes every relation and count.
+    /// Compiles the libam model of one block into `dst`: clears it, then writes every relation and count.
     fn compile_block(dst: &mut Self::Mut<'_>, src: &RelationBlock<Self::Relation>);
 
     /// Whether no set holds a relation (`system.count == 0` and every `players[i].count == 0`).
@@ -73,7 +73,7 @@ macro_rules! config_block {
         relation { $relation_ref:ident, $relation_mut:ident, $model:ty, $write:path } $(,)?
     ) => {
         const _: () = {
-            use ::libam_api::input::{RelationBlock, RelationSet};
+            use ::libam::jvs::{RelationBlock, RelationSet};
             use $crate::controllers::input::{ConfigBlock, MergeOverflow};
             use $crate::schema::input::{MAX_RELATIONS, PLAYER_SETS};
 
@@ -107,7 +107,7 @@ macro_rules! config_block {
                 Ok(())
             }
 
-            /// Compiles one libam-api relation set into the (cleared) `dst`: the relations in config order, then the
+            /// Compiles one libam relation set into the (cleared) `dst`: the relations in config order, then the
             /// count. A `RelationSet` holds at most 64 relations, which is the capacity.
             fn compile_set(dst: &mut $set_mut<'_>, src: &RelationSet<$model>) {
                 let relations = src.as_slice();
@@ -178,10 +178,10 @@ macro_rules! config_block {
 }
 pub(crate) use config_block;
 
-// A libam-api relation set must fit a schema set exactly, for the input and the output side alike.
+// A libam relation set must fit a schema set exactly, for the input and the output side alike.
 const _: () = {
-    assert!(libam_api::input::MAX_RELATIONS == crate::schema::input::MAX_RELATIONS);
-    assert!(libam_api::input::PLAYER_SETS == crate::schema::input::PLAYER_SETS);
+    assert!(libam::jvs::MAX_RELATIONS == crate::schema::input::MAX_RELATIONS);
+    assert!(libam::jvs::PLAYER_SETS == crate::schema::input::PLAYER_SETS);
 };
 
 config_block! {
@@ -207,7 +207,7 @@ fn usb_info(node: u8, player: Option<u8>) -> UsbInfoPatch {
     UsbInfoPatch { node: Some(node), player: Some(player.unwrap_or(SYSTEM_PLAYER)) }
 }
 
-/// Compiles one libam-api input relation into its (cleared) schema slot: the id cut to the field, the device
+/// Compiles one libam input relation into its (cleared) schema slot: the id cut to the field, the device
 /// type selected by the info variant, the index and the type's info bytes.
 fn write_relation(dst: &mut InputRelationMut<'_>, src: &InputRelation) {
     let id = fit_wide_str(&src.id, ID_CAPACITY);
@@ -231,7 +231,7 @@ fn write_relation(dst: &mut InputRelationMut<'_>, src: &InputRelation) {
 }
 
 /// `process::config::InputOutputConfig<ServerData>`: `ServerData block[5]`, contiguous, no header, here the
-/// controller's private copy compiled from the libam-api [`RelationMap`].
+/// controller's private copy compiled from libam's [`RelationMap`].
 ///
 /// Block 0 is the *common* block (non-JVS relations); block `k` (1..=4) holds the JVS relations that apply
 /// when libam detects `k` JVS nodes. A default config is all-empty (`count == 0` everywhere).
@@ -239,8 +239,8 @@ pub struct InputOutputConfig<B: ConfigBlock> {
     blocks: Box<[B::Storage; CONFIG_BLOCKS]>,
 }
 
-/// The input-side relation blocks (`0x25FDA` bytes in the original), compiled from the libam-api
-/// [`InputConfig`](libam_api::input::InputConfig).
+/// The input-side relation blocks (`0x25FDA` bytes in the original), compiled from libam's
+/// [`InputConfig`](libam::jvs::InputConfig).
 pub type CompiledInputConfig = InputOutputConfig<ServerInput<'static>>;
 
 impl<B: ConfigBlock> InputOutputConfig<B> {
@@ -263,7 +263,7 @@ impl<B: ConfigBlock> InputOutputConfig<B> {
     }
 
     /// Replaces every block with the compilation of `model` (the config observer's `memcpy` of
-    /// `Config+0xA8` / `Config+0x26082`, here from the libam-api relation map): nothing of the previous
+    /// `Config+0xA8` / `Config+0x26082`, here from libam's relation map): nothing of the previous
     /// content survives.
     pub fn compile(&mut self, model: &RelationMap<B::Relation>) {
         for (storage, block) in self.blocks.iter_mut().zip(&model.blocks) {
@@ -386,9 +386,9 @@ pub(crate) mod tests {
     use crate::schema::image::ServerImage;
     use crate::schema::input::{ID_CAPACITY, InputDevicePatch, InputInfoPatch, InputRelationPatch, MAX_RELATIONS};
     use crate::schema::text::fit_wide_str;
-    use libam_api::input::{InputConfig, RelationSet};
-    use libam_api::result::{AmError, AmResult};
-    use libam_api::sequence::ProcessState;
+    use libam::jvs::{InputConfig, RelationSet};
+    use libam::result::{AmError, AmResult};
+    use libam::sequence::ProcessState;
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;

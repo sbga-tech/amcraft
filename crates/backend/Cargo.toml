@@ -12,8 +12,6 @@ publish.workspace = true
 mock = []
 
 [dependencies]
-# Value types of the interface signatures (`DateTime`, `Tm`).
-libam-api.workspace = true
 thiserror = "2"
 # Default HTTP(S) client on worker threads (`http.rs`). HTTPS goes through the system's TLS library
 # (`native-tls`, SChannel on Windows) with the system root store, like the original's WinHTTP.

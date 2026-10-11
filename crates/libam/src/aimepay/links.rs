@@ -4,7 +4,7 @@
 //!
 //! The flow calls [`update`] and [`set_shutdown`]; the port handle goes through [`drive`].
 
-use libam_api::system_info::LibamSerial;
+use crate::platform::LibamSerial;
 
 use super::{AimePay, Inputs, Links};
 use crate::aime::Aime;

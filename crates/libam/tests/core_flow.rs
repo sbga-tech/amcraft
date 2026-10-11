@@ -5,10 +5,10 @@ use std::fs;
 use backend::RegValue;
 use backend::mock::SimRegistry;
 use libam::Libam;
+use libam::config::WideStr;
+use libam::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
 use libam::mock::SimBackend;
-use libam_api::am_config::WideStr;
-use libam_api::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
-use libam_api::sequence::ProcessState;
+use libam::sequence::ProcessState;
 use tempfile::TempDir;
 
 /// A libam on the simulated healthy cabinet, with an English error resource set under `R:\res`.

@@ -12,7 +12,6 @@
 use std::ffi::{CStr, CString, c_char, c_void};
 use std::ptr::{from_ref, null_mut};
 
-use libam_api::time::Tm;
 use libloading::Library;
 
 use crate::ThincaSdk;
@@ -99,23 +98,12 @@ fn check(method: &'static str, code: u32) -> Result<(), ThincaError> {
 /// # Safety
 ///
 /// `time` is NULL or points to nine readable `i32`.
-unsafe fn read_tm(time: *const i32) -> Option<Tm> {
+unsafe fn read_tm(time: *const i32) -> Option<[i32; 9]> {
     if time.is_null() {
         return None;
     }
     // SAFETY: forwarded to the caller; the read is unaligned-safe.
-    let raw = unsafe { time.cast::<[i32; 9]>().read_unaligned() };
-    Some(Tm {
-        sec: raw[0],
-        min: raw[1],
-        hour: raw[2],
-        mday: raw[3],
-        mon: raw[4],
-        year: raw[5],
-        wday: raw[6],
-        yday: raw[7],
-        isdst: raw[8],
-    })
+    Some(unsafe { time.cast::<[i32; 9]>().read_unaligned() })
 }
 
 /// The detail record `T` of a result (3.3): the getters of its kind and type.

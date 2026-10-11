@@ -4,7 +4,7 @@
 //! per frame, retry waits of 60/120/240/480/900 s for the gateway and the DNS-LAN check, 300 s for the
 //! location router, the error codes and their order) is kept here as direct state machines.
 
-use libam_api::am_config::NetworkConfig;
+use crate::config::NetworkConfig;
 
 use super::engine::{AmNetwork, PropertyBuffer, TraceState};
 use crate::module::ErrorCell;

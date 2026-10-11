@@ -1,8 +1,8 @@
 //! The network test controller (`spec/libam/network.md` part T): nine checkers run in order, one step per
 //! frame, reporting through [`NetworkTestEvent`]s that the port hands to the daemon.
 
-use libam_api::error::FatalError;
-use libam_api::network::{NetworkTestEvent, TestItem, TestStatus};
+use crate::error::FatalError;
+use crate::network::{NetworkTestEvent, TestItem, TestStatus};
 
 use super::Network;
 use crate::core::Core;
@@ -129,7 +129,7 @@ pub struct NetworkTest {
     listener: bool,
     allnet_auth: bool,
     events: Vec<NetworkTestEvent>,
-    now: libam_api::time::Tm,
+    now: crate::time::Tm,
 }
 
 fn units(text: &str) -> [u16; 16] {

@@ -30,7 +30,7 @@ mod selftest;
 mod tests;
 mod vfd;
 
-use libam_api::am_config::DisplayConfig;
+use crate::config::DisplayConfig;
 
 use self::context::Context;
 use self::lanes::Lanes;

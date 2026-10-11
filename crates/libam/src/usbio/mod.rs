@@ -22,15 +22,19 @@ pub mod usbdevice;
 
 use std::rc::Rc;
 
-use libam_api::am_config::UsbIoConfig;
-use libam_api::usb_io::{FirmwareEvent, FirmwareStatus, UniqueDescriptor};
+use crate::config::UsbIoConfig;
 
 use crate::credit::CoinSlots;
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
 use board::{BoardDesc, parse_board};
 use firmware::{FirmwareFile, parse_firmware};
 use node::{Node, error, mode};
-pub use port::{BoardIoHandle, UsbDeviceHandle, UsbIoHandle};
+pub use port::{
+    BoardIoHandle, BoardIoPort, FirmwareEvent, FirmwareStatus, UNIQUE_DATA_LEN, UNIQUE_INPUT_DATA_LEN, UniqueCommand,
+    UniqueDescriptor, UniqueDescriptors, UsbDeviceAppConfig, UsbDeviceEvent, UsbDeviceHandle, UsbDeviceId,
+    UsbDevicePort, UsbIoAppConfig, UsbIoHandle, UsbIoNodeFunctions, UsbIoNodeInfo, UsbIoPort, UsbIoProcessConfig,
+    UsbIoUniqueFunction, UsbRequired,
+};
 pub use systemio::SystemIo;
 pub use usbdevice::UsbDevice;
 
@@ -268,7 +272,7 @@ impl UsbIo {
         } else if self.enabled {
             self.setup_step(cx, now);
             if self.life.state == StateWord::READY && self.config.detect_node_listener {
-                cx.events.push(libam_api::interface::LibamEvent::UsbIoDetectNode);
+                cx.events.push(crate::interface::LibamEvent::UsbIoDetectNode);
             }
         }
         self.publish_error();

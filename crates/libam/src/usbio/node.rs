@@ -4,9 +4,9 @@
 use std::collections::VecDeque;
 use std::rc::Rc;
 
-use libam_api::am_config::UsbIoNode;
-use libam_api::jvs::{AnalogChannel, AnalogState, RotaryState, SwitchState};
-use libam_api::usb_io::{UNIQUE_INPUT_DATA_LEN, UniqueDescriptor, UniqueDescriptors, UsbIoNodeInfo};
+use crate::config::UsbIoNode;
+use crate::jvs::{AnalogChannel, AnalogState, RotaryState, SwitchState};
+use crate::usbio::{UNIQUE_INPUT_DATA_LEN, UniqueDescriptor, UniqueDescriptors, UsbIoNodeInfo};
 
 use super::board::{BoardDesc, satisfies};
 use super::firmware::FirmwareFile;

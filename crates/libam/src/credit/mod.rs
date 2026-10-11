@@ -18,9 +18,8 @@ mod port;
 
 use std::collections::VecDeque;
 
-use libam_api::am_config::{CreditConfig, CreditRule, UNSET_U32, UNSET_U64};
-use libam_api::credit::{BookkeepingTotals, InsertCoinEvent, PLAYERS, PlayerCredit};
-use libam_api::result::{AmError, AmResult};
+use crate::config::{CreditConfig, CreditRule, UNSET_U32, UNSET_U64};
+use crate::result::{AmError, AmResult};
 
 use self::as6db::{InputNode, Io, SlotCondition, SpecialDevice};
 use self::library::{EventKind, InitArgs, Library, NodeFlags, Rule, book};
@@ -28,7 +27,7 @@ use self::persist::Records;
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
 use crate::nvram::NvramContext;
 
-pub use port::CreditHandle;
+pub use port::{BookkeepingTotals, CreditAppConfig, CreditHandle, CreditPort, InsertCoinEvent, PLAYERS, PlayerCredit};
 
 /// The coin node interface of the adapter the credit manager reads (JVS, USB I/O or CAN module): the node
 /// virtual slots of `credit.md` part I 3.9 and part III 2. Nodes are numbered from 0 in the adapter's node order;
@@ -643,7 +642,7 @@ impl Credit {
     }
 
     /// `sequence.credit_check` (`libam.credit.check`, `0x14022BD20`): 0 not affordable, 1 partial credit held, 2
-    /// affordable ([`libam_api::sequence::CREDIT_AFFORDABLE`]); never an error.
+    /// affordable ([`crate::sequence::CREDIT_AFFORDABLE`]); never an error.
     pub fn check(&self, player: u32, cost_index: i16, cost_count: u16) -> AmResult<u32> {
         let state = self
             .price(player, cost_index, cost_count)

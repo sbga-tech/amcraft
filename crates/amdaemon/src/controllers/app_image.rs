@@ -8,8 +8,8 @@
 
 use crate::schema::app_image::{MAX_OPTIONS, OptionImageInfoMut, ServerAppImageMut, ServerAppImagePatch};
 use crate::schema::text::fit_wide;
-use libam_api::app_image::{AppImagePort, AppImageProperty, PropertyKind};
-use libam_api::time::DateTime;
+use libam::appimage::{AppImagePort, AppImageProperty, PropertyKind};
+use libam::time::DateTime;
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx};
 
@@ -161,8 +161,8 @@ mod tests {
 
     use widestring::U16CStr;
 
-    use libam_api::result::{AmError, AmResult};
-    use libam_api::time::Tm;
+    use libam::result::{AmError, AmResult};
+    use libam::time::Tm;
 
     use super::*;
     use crate::controllers::controller::testing::{Harness, civil};

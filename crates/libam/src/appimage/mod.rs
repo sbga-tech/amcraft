@@ -19,14 +19,13 @@ mod port;
 #[cfg(test)]
 mod tests;
 
-use libam_api::apm::version_parts;
-use libam_api::app_image::{AppImageProperty, PropertyKind};
-use libam_api::time::Tm;
+use crate::apm::version_parts;
+use crate::time::Tm;
 
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
 use icf::{Entries, Entry, EntryKind};
 
-pub use port::AppImageHandle;
+pub use port::{AppImageHandle, AppImagePort, AppImageProperty, OPTION_ID_LEN, PropertyKind};
 
 /// Error code of a failed load (4.6).
 const ERROR_LOAD: u16 = 4105;

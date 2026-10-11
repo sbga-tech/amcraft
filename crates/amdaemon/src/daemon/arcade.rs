@@ -5,7 +5,7 @@
 //! §M5/§M7.2 (listener sinks and their registrants), §M8 (helpers) and §9 (cabinet-type callback
 //! `0x140005B40`).
 //!
-//! libam is a port ([`libam_api::interface`]). Its callbacks arrive as [`LibamEvent`]s and are routed here in
+//! libam is a port ([`libam::interface`]). Its callbacks arrive as [`LibamEvent`]s and are routed here in
 //! emission order; the hub vectors of the original (`configCbs`, `appConfigCbs`, `jvsDetectCbs`, …) are the
 //! controllers' `on_*` hooks called in registry order, which equals the recovered registration order. libam's
 //! own diagnostics are `tracing` events and do not pass through here.
@@ -17,9 +17,8 @@ use crate::manager::Manager;
 use crate::daemon::args::ArgumentsParser;
 use crate::daemon::log::LogPath;
 use crate::daemon::paths;
-use libam_api::interface::{
-    AmInterface, CabinetAppConfig, ConfigLoadRequest, ConfigLoader, LibamEvent, LibamwConfig, LoadCabinetTypeEvent,
-};
+use libam::config::{ConfigLoadRequest, ConfigLoader};
+use libam::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig, LoadCabinetTypeEvent};
 
 /// `wchar_t logDir[128]` (`wcscpy_s(cfg+0, 128, …)` in `0x140212730`).
 const LOG_DIR_CAPACITY: usize = 128;
@@ -334,12 +333,13 @@ mod tests {
 
     use crate::controllers::controller::ControllerId;
     use crate::manager::ManagerState;
-    use libam_api::sequence::ProcessState;
+    use libam::sequence::ProcessState;
 
     use super::*;
     use crate::daemon::app::ServerExchange;
     use crate::mock::{self, Fixture, InterfaceHandles, ProbeHandle, RecordingHost, Trace};
-    use libam_api::interface::{ConfigBytes, ListenerSinks, LoadedConfig};
+    use libam::config::{ConfigBytes, LoadedConfig};
+    use libam::interface::ListenerSinks;
 
     struct Rig {
         arcade: Arcade,

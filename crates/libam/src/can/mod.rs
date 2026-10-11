@@ -14,8 +14,8 @@
 //!   [can.facade.target] [can.facade.send] [can.listener.never_dispatched];
 //! * the credit node-manager sub-object is never active [can.node_manager.inactive].
 //!
-//! The configuration validation of `can.md` 2.6 lives in `AmConfig::validate` (`libam-api`), which runs before
-//! this module sees the config.
+//! The configuration validation of `can.md` 2.6 lives in [`AmConfig::validate`](crate::config::AmConfig::validate),
+//! which runs before this module sees the config.
 //!
 //! # Cross-module methods
 //!
@@ -29,12 +29,12 @@ mod port;
 #[cfg(test)]
 mod tests;
 
-use libam_api::am_config::CanConfig;
+use crate::config::CanConfig;
 
 use crate::credit::CoinSlots;
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
 
-pub use port::CanHandle;
+pub use port::{CanAppConfig, CanEvent, CanHandle, CanPacket, CanPort, CanTargetInfo, DisabledCanPort, MAX_FRAME_DATA};
 
 /// The error number the "not supported" setup raises (`can.md` 2.5).
 const NOT_SUPPORTED_ERROR: u16 = 4104;

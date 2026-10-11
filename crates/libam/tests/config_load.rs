@@ -3,8 +3,7 @@
 use std::fs;
 use std::path::Path;
 
-use libam::config::{FileConfigLoader, LoadError};
-use libam_api::interface::{ConfigLoadRequest, ConfigLoader, LoadedConfig};
+use libam::config::{ConfigLoadRequest, ConfigLoader, FileConfigLoader, LoadError, LoadedConfig};
 use tempfile::TempDir;
 
 /// A temporary executable directory with config files.

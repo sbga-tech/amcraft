@@ -9,7 +9,7 @@ use widestring::U16CStr;
 
 use crate::schema::allnet::{AuthLineType, ServerAuthMut, ServerAuthPatch};
 use crate::schema::text::{fit_narrow, fit_wide};
-use libam_api::allnet::{AuthLocation, AuthPort};
+use libam::allnet::{AuthLocation, AuthPort};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx};
 
@@ -152,10 +152,10 @@ impl Controller for AuthController {
 
 #[cfg(test)]
 mod tests {
-    use libam_api::allnet::TimeSlot;
-    use libam_api::result::{AmError, AmResult};
-    use libam_api::sequence::ProcessState;
-    use libam_api::time::{DateTime, Tm};
+    use libam::allnet::TimeSlot;
+    use libam::result::{AmError, AmResult};
+    use libam::sequence::ProcessState;
+    use libam::time::{DateTime, Tm};
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;

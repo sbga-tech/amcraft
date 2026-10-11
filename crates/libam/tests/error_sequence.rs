@@ -5,12 +5,12 @@ use std::fs;
 
 use backend::keychip::Property;
 use libam::Libam;
+use libam::config::WideStr;
+use libam::error::{ErrorPort, FatalError, HistoryRing};
+use libam::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
 use libam::mock::SimBackend;
-use libam_api::am_config::WideStr;
-use libam_api::error::{ErrorPort, FatalError, HistoryRing};
-use libam_api::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
-use libam_api::sequence::{ProcessState, SequencePort};
-use libam_api::time::Tm;
+use libam::sequence::{ProcessState, SequencePort};
+use libam::time::Tm;
 use tempfile::TempDir;
 
 const ERROR_JSON: &str = r#"[

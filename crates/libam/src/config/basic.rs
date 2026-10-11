@@ -1,7 +1,7 @@
 //! The small sections: `common`, `error`, `sequence`, `video`, `backup`, `apm`, `allnet_air`
 //! (`spec/libam/config.md` Part D).
 
-use libam_api::sequence::{HistogramRule, PlayAccountingTiming, SequenceConfig};
+use crate::sequence::{HistogramRule, PlayAccountingTiming, SequenceConfig};
 
 use super::json::{Json, Map};
 use super::reader::{Obj, Res, bad_described, utf16_len};

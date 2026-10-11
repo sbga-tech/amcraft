@@ -3,9 +3,10 @@
 
 use std::fs;
 
-use libam::config::FileConfigLoader;
-use libam_api::am_config::{AmConfig, Pair, UNSET_U32, UNSET_U64};
-use libam_api::interface::{CabinetAppConfig, ConfigLoadRequest, ConfigLoader, LoadedConfig};
+use libam::config::{
+    AmConfig, ConfigLoadRequest, ConfigLoader, FileConfigLoader, LoadedConfig, Pair, UNSET_U32, UNSET_U64,
+};
+use libam::interface::CabinetAppConfig;
 use tempfile::TempDir;
 
 const CONFIG: &str = r#"{

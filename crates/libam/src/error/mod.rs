@@ -1,4 +1,4 @@
-//! The error manager (`am::error`, `spec/libam/error.md` part II) and the `ErrorPort` handle.
+//! The error manager (`am::error`, `spec/libam/error.md` part II) and the error facade ([`ErrorPort`]).
 //!
 //! The manager owns the language and resource sets ([`resource`]), the current and pending error, the two
 //! history rings and the occurrence table in memory, and the two persisted records behind them ([`log`]): the
@@ -9,19 +9,17 @@
 //! [`crate::core::Core::raise_error`]; this type only holds the manager's own part (`0x140233090`).
 
 mod log;
+mod port;
 mod resource;
 
-use libam_api::am_config::ErrorConfig;
-use libam_api::backup::GameId;
-use libam_api::error::{ErrorOccurrence, ErrorPort, FatalError, HistoryRing};
-use libam_api::interface::LibamEvent;
-use libam_api::result::{AmError, AmResult};
-use libam_api::time::Tm;
+pub use port::{ErrorHandle, ErrorOccurrence, ErrorPort, FATAL_MESSAGE_UNITS, FatalError, HistoryRing};
 
+use crate::config::ErrorConfig;
+use crate::interface::LibamEvent;
 use crate::master::Master;
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
-use crate::nvram::{NvramContext, RecordStatus};
-use crate::shared::Shared;
+use crate::nvram::{GameId, NvramContext, RecordStatus};
+use crate::time::Tm;
 use crate::util::{tm_from_date_time, wide_to_string};
 use log::{AppLog, ErrorLog, from_filetime, to_filetime};
 use resource::{Filters, ResourceSet};
@@ -637,51 +635,4 @@ impl ErrorManager {
 fn push_ring(ring: &mut Vec<FatalError>, item: FatalError) {
     ring.insert(0, item);
     ring.truncate(RING_CAPACITY);
-}
-
-/// `ErrorPort` over the shared state.
-#[derive(Debug)]
-pub struct ErrorHandle(pub(crate) Shared);
-
-impl ErrorPort for ErrorHandle {
-    fn error_facade_available(&self) -> bool {
-        self.0.guard().is_ok()
-    }
-
-    fn language(&self) -> Option<[u16; 16]> {
-        self.0.guard().ok()?;
-        Some(self.0.read(|core| core.error.language()))
-    }
-
-    fn reset(&mut self) {
-        self.0.with(|core| core.reset_error());
-    }
-
-    fn set(&mut self, number: u16, sub_number: u16) {
-        self.0.with(|core| core.raise_error(number, sub_number));
-    }
-
-    fn clear_logs(&mut self) {
-        self.0.with(|core| core.error.clear_logs(&core.nvram));
-    }
-
-    fn history_count(&self, ring: HistoryRing) -> u32 {
-        self.0.read(|core| core.error.ring(ring).len() as u32)
-    }
-
-    fn history_item(&self, ring: HistoryRing, index: u32) -> AmResult<FatalError> {
-        self.0
-            .read(|core| core.error.ring(ring).get(index as usize).cloned())
-            .ok_or_else(|| AmError::with_message(1, "Invalid num"))
-    }
-
-    fn times_count(&self) -> u32 {
-        self.0.read(|core| core.error.table.len() as u32)
-    }
-
-    fn times_item(&self, index: u32) -> AmResult<ErrorOccurrence> {
-        self.0
-            .read(|core| core.error.table.get(index as usize).map(|&(number, times)| ErrorOccurrence { number, times }))
-            .ok_or_else(|| AmError::with_message(1, "Invalid num"))
-    }
 }

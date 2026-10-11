@@ -5,8 +5,8 @@
 
 use std::fs::ReadDir;
 
-use libam_api::backup::GameId;
-use libam_api::interface::LibamEvent;
+use crate::interface::LibamEvent;
+use crate::nvram::GameId;
 
 use crate::module::{Cx, ErrorCell, StateWord};
 use crate::util::{game_id, wide_to_string};

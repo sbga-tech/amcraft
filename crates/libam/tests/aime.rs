@@ -6,10 +6,10 @@ use std::thread;
 use std::time::Duration;
 
 use libam::Libam;
+use libam::aime::{AimeEvent, AimePort, FinishedStatus, FinishedTask};
+use libam::config::{AimeUnit, WideStr};
+use libam::interface::{AmInterface, CabinetAppConfig, LibamwConfig};
 use libam::mock::SimBackend;
-use libam_api::aime::{AimeEvent, AimePort, FinishedStatus, FinishedTask};
-use libam_api::am_config::{AimeUnit, WideStr};
-use libam_api::interface::{AmInterface, CabinetAppConfig, LibamwConfig};
 use tempfile::TempDir;
 
 /// The access code of the card on the reader and of the account on the server.
@@ -55,7 +55,7 @@ impl Cabinet {
             let requested = interface
                 .execute()
                 .iter()
-                .any(|event| matches!(event, libam_api::interface::LibamEvent::LoadCabinetType(_)));
+                .any(|event| matches!(event, libam::interface::LibamEvent::LoadCabinetType(_)));
             if requested {
                 break;
             }

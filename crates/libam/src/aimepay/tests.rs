@@ -5,9 +5,9 @@ use std::cell::{Cell, RefCell};
 use std::fs;
 use std::rc::Rc;
 
-use libam_api::aime::AccessCode;
-use libam_api::aime_pay::AimePayEvent;
-use libam_api::am_config::{AmConfig, WideStr};
+use crate::aime::AccessCode;
+use crate::aimepay::AimePayEvent;
+use crate::config::{AmConfig, WideStr};
 use tempfile::TempDir;
 
 use super::record::Info;

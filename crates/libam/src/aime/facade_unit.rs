@@ -1,13 +1,13 @@
 //! One reader unit of the Aime facade (`AccountLoader`, `spec/libam/aime.md` A.1, A.4, A.5, A.8): the command
 //! sequencer, the commands' bodies over the aimelib core, the result blocks and the unit's events.
 
-use libam_api::aime::{
+use crate::aime::{
     AccessCode, AimeEvent, CardInfo, FinishedStatus, FinishedTask, LibamAimeId, ReaderInfo, RelatedSegaId,
     UnitTaskFinished,
 };
-use libam_api::error::FatalError;
-use libam_api::result::{AmError, AmResult};
-use libam_api::time::Tm;
+use crate::error::FatalError;
+use crate::result::{AmError, AmResult};
+use crate::time::Tm;
 
 use super::device::{Holder, UnitSlot};
 use super::facade_error::{fatal_number, has_unit_sub_number};

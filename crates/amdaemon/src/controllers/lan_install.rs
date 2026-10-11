@@ -7,7 +7,7 @@
 //! every ready frame; `exitNeeded` is raised by libam's NeedToExit reason 1 and never cleared.
 
 use crate::schema::lan_install::ServerLanInstallPatch;
-use libam_api::lan_install::{LanInstallMode, LanInstallPort};
+use libam::network::{LanInstallMode, LanInstallPort};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx};
 
@@ -85,7 +85,7 @@ mod tests {
     use std::cell::RefCell;
     use std::rc::Rc;
 
-    use libam_api::result::{AmError, AmResult};
+    use libam::result::{AmError, AmResult};
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;

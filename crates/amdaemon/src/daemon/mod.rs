@@ -1,7 +1,7 @@
 //! The amdaemon 2024 process: `wWinMain`, the `App` lifecycle, the `arcade::Manager` event hub, command-line
 //! arguments, the single-instance guard and the log path.
 //!
-//! Spec: `spec/controllers/lifecycle.md` §1-§5, §7 and §9. libam ([`libam_api::interface`]) and the IPC
+//! Spec: `spec/controllers/lifecycle.md` §1-§5, §7 and §9. libam ([`libam::interface`]) and the IPC
 //! server ([`app::ServerExchange`]) are ports. The daemon's own clock, window and console are internal
 //! services gathered in [`app::SystemServices`]; [`launch`] manages the process's single-instance lock.
 
@@ -153,8 +153,8 @@ mod tests {
     #[test]
     fn rejected_command_line_continues_with_defaults() {
         use crate::daemon::window::MessagePump;
-        use libam_api::interface::LibamEvent;
-        use libam_api::sequence::ProcessState;
+        use libam::interface::LibamEvent;
+        use libam::sequence::ProcessState;
 
         // 1 MHz clock advancing 5000 per read: at 66 Hz only the first of three turns is due, at 120 Hz all three.
         let mut fixture = Fixture::new();

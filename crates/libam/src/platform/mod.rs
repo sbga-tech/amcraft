@@ -25,11 +25,13 @@ use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
 use crate::nvram::NvramContext;
 use crate::registry_keys::{MOUNT_KEY, OS_VERSION_KEY, STATIC_KEY};
 use backend::{Backend, KeyMode, RegValue};
-use libam_api::system_info::LibamSerial;
 use serial::Serial;
 
 pub use dongle::{Dongle, DongleInfo};
-pub use port::{CommonHandle, ProcessHandle, SystemInfoHandle};
+pub use port::{
+    CommonHandle, CommonPort, LibamSerial, NextProcessCode, ProcessHandle, ProcessPort, SystemInfoHandle,
+    SystemInfoPort, VideoResolution,
+};
 
 /// The platform error codes of C.8.
 pub mod error_code {

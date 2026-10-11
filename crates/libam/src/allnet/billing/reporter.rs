@@ -6,9 +6,9 @@ use std::fmt::Write as _;
 use std::path::PathBuf;
 use std::sync::mpsc::{Receiver, TryRecvError, channel};
 
+use crate::time::{CivilTime, Tm};
 use base64::Engine as _;
 use base64::engine::general_purpose::STANDARD;
-use libam_api::time::{CivilTime, Tm};
 
 use super::AuthLink;
 use super::driver::DriverDongle;

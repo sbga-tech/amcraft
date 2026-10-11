@@ -4,7 +4,7 @@
 //! `execute`, `finalize`) and the event hub live in the daemon crate; this type holds the fields
 //! controllers read and the helpers they call.
 
-use libam_api::sequence::ProcessState;
+use libam::sequence::ProcessState;
 
 /// `Manager+0x430`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]

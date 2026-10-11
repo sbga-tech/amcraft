@@ -7,8 +7,8 @@
 //! Evidence: `spec/controllers/can_boardio_usbdevice.md` §2 (claims `can_boardio_usbdevice.can.*`).
 //!
 //! The statically linked libam of this build contains only the *disabled* CAN manager: its port count is 0,
-//! every `send` fails and no listener callback is ever invoked. [`libam_api::can::DisabledCanPort`] reproduces
-//! that backend through [`libam_api::can::CanPort`]; a real backend only has to implement the trait.
+//! every `send` fails and no listener callback is ever invoked. [`libam::can::DisabledCanPort`] reproduces
+//! that backend through [`libam::can::CanPort`]; a real backend only has to implement the trait.
 
 use std::collections::VecDeque;
 use std::fmt::Write as _;
@@ -21,11 +21,11 @@ use crate::schema::can::{
     ServerTargetPatch,
 };
 use crate::schema::text::fit_wide_str;
-use libam_api::can::{CanEvent, CanPacket, CanPort, CanTargetInfo};
-use libam_api::result::{AmError, AmResult};
+use libam::can::{CanEvent, CanPacket, CanPort, CanTargetInfo};
+use libam::result::{AmError, AmResult};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
-use libam_api::config::AppConfig;
+use libam::config::AppConfig;
 
 /// Why indexing the two per-port records of the blocks cannot fail.
 const PORT_RECORD: &str = "both blocks hold one record per CAN port";
@@ -385,7 +385,7 @@ mod tests {
 
     use crate::schema::can::ClientRequestPatch;
     use crate::schema::image::ServerImage;
-    use libam_api::can::DisabledCanPort;
+    use libam::can::DisabledCanPort;
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;
@@ -905,11 +905,11 @@ mod tests {
     #[test]
     fn frames_received_while_not_ready_are_queued_and_published_after_the_ready_edge() {
         let mut rig = Rig::new();
-        rig.harness.manager.on_change_state(libam_api::sequence::ProcessState(1));
+        rig.harness.manager.on_change_state(libam::sequence::ProcessState(1));
         rig.push_events([frame(0, 1, 0x10, &[1])]);
         rig.tick();
         assert_eq!(rig.ack(0).0, 0, "controller is not ready");
-        rig.harness.manager.on_change_state(libam_api::sequence::ProcessState(3));
+        rig.harness.manager.on_change_state(libam::sequence::ProcessState(3));
         rig.tick();
         assert_eq!(rig.ack(0).1, 1);
     }

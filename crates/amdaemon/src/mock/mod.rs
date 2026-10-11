@@ -16,9 +16,9 @@ use crate::ipc::server::RootsMut;
 use crate::manager::ManagerState;
 use crate::schema::image::{ClientImage, ServerImage, ServerIoImage};
 use crate::schema::process::ServerProcessPatch;
-use libam_api::config::{AppConfig, ProcessConfig};
-use libam_api::error::FatalError;
-use libam_api::result::{AmError, AmResult};
+use libam::config::{AppConfig, ConfigLoadRequest, ConfigLoader, LoadedConfig, ProcessConfig};
+use libam::error::FatalError;
+use libam::result::{AmError, AmResult};
 
 pub(crate) use self::console::FakeConsole;
 pub(crate) use self::recorded::{Recorded, Seen};
@@ -28,9 +28,7 @@ use crate::daemon::app::{AppServices, ServerExchange, SystemServices};
 use crate::daemon::arcade::HubHost;
 use crate::daemon::clock::Clock;
 use crate::daemon::log::LogPath;
-use libam_api::interface::{
-    AmInterface, CabinetAppConfig, ConfigLoadRequest, ConfigLoader, LibamEvent, LibamwConfig, LoadedConfig,
-};
+use libam::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
 
 /// A module path inside a directory that does not exist: the default log file can never be written.
 pub(crate) const MODULE_PATH: &str = "/amdaemon-daemon-tests-missing-dir/amdaemon.exe";
@@ -228,7 +226,7 @@ impl FakeInterface {
     pub(crate) fn new(trace: &Trace) -> Self {
         Self {
             trace: Rc::clone(trace),
-            init: Some(Ok(vec![LibamEvent::ChangeState(libam_api::sequence::ProcessState(1))])),
+            init: Some(Ok(vec![LibamEvent::ChangeState(libam::sequence::ProcessState(1))])),
             ticks: VecDeque::new(),
             develop: Ok(false),
             app_root: Ok(None),

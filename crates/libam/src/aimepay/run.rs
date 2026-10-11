@@ -5,7 +5,7 @@
 //! A server command is issued in one frame and its answer is applied by the next one (the hub's poll runs first in
 //! the frame), so every command takes at least one frame.
 
-use libam_api::aime_pay::AimePayEvent;
+use crate::aimepay::AimePayEvent;
 
 use super::proto::Call;
 use super::record::{Compact, Entry};

@@ -23,16 +23,16 @@ mod wire;
 #[cfg(test)]
 mod tests;
 
-use libam_api::am_config::AbaasLogConfig;
-use libam_api::app_image::{AppImageProperty, PropertyKind};
-use libam_api::backup::GameId;
+use crate::appimage::{AppImageProperty, PropertyKind};
+use crate::config::AbaasLogConfig;
+use crate::nvram::GameId;
 
 use self::engine::{Engine, Env, MAX_MESSAGE, SysConfig};
 use crate::clock::Clock;
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
 use backend::Fs;
 
-pub use port::LogHandle;
+pub use port::{LogHandle, LogPort};
 
 /// The code of the init-error record when `buildSysInfo` fails (6.5.5).
 const INIT_ERROR: u16 = 4105;

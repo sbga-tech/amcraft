@@ -24,18 +24,23 @@ pub mod laninstall;
 pub mod netdeliver;
 pub mod networktest;
 
-use libam_api::am_config::NetworkConfig;
-use libam_api::network::NetworkProperty;
+use crate::config::NetworkConfig;
 
 use crate::module::{Cx, ErrorCell};
 use crate::nvram::{NvramContext, Record};
 
-pub use delivery_port::{LanInstallHandle, NetDeliveryHandle};
+pub use delivery_port::{
+    DELIVERY_SOURCE_CAPACITY, DownloadProgress, ImageInfo, ImageKind, LanInstallHandle, LanInstallMode, LanInstallPort,
+    NetDeliveryHandle, NetDeliveryPort, TimeInfo,
+};
 pub use engine::{AmNetwork, PropertyBuffer, TraceState};
 pub use laninstall::NetInstall;
 pub use netdeliver::NetDeliver;
 pub use networktest::NetworkTest;
-pub use port::NetworkHandle;
+pub use port::{
+    NetworkAppConfig, NetworkHandle, NetworkPort, NetworkProcessConfig, NetworkProperty, NetworkTestEvent, TestItem,
+    TestStatus,
+};
 
 use net_manager::{
     DnsChecker, FAILED, GatewayChecker, IDLE, Io, IpChecker, LocationRouterChecker, OK, Property, PropertySetter,

@@ -2,8 +2,8 @@
 //! of five deal entries and the pending deal. The image is the 1024-byte record the NVRAM library frames (CRC and
 //! id in the first eight bytes, data from `+8`); this module only reads and writes the data area.
 
-use libam_api::aime::AccessCode;
-use libam_api::time::{DateTime, Tm};
+use crate::aime::AccessCode;
+use crate::time::{DateTime, Tm};
 
 use super::model::{CODE_LEN, COMPANY_NAME_LEN, Deal, Location, STORE_NAME_LEN, units};
 use crate::util::tm_from_date_time;

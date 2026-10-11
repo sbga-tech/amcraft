@@ -1,10 +1,10 @@
 //! The network test sequence through `NetworkPort` on the simulated backend (`spec/libam/network.md` parts A, B).
 
 use libam::Libam;
+use libam::config::WideStr;
+use libam::interface::{AmInterface, CabinetAppConfig, LibamwConfig};
 use libam::mock::{SIMULATED_RESOURCE_PATH, SimBackend};
-use libam_api::am_config::WideStr;
-use libam_api::interface::{AmInterface, CabinetAppConfig, LibamwConfig};
-use libam_api::network::{NetworkPort, NetworkTestEvent, TestItem};
+use libam::network::{NetworkPort, NetworkTestEvent, TestItem};
 use tempfile::TempDir;
 
 struct Cabinet {
@@ -21,7 +21,7 @@ fn cabinet() -> Cabinet {
     interface.initialize(&LibamwConfig::default()).expect("initialize");
     for _ in 0..20 {
         let requested =
-            interface.execute().iter().any(|e| matches!(e, libam_api::interface::LibamEvent::LoadCabinetType(_)));
+            interface.execute().iter().any(|e| matches!(e, libam::interface::LibamEvent::LoadCabinetType(_)));
         if requested {
             break;
         }

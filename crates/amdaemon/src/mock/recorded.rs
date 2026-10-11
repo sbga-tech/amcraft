@@ -3,9 +3,9 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-use libam_api::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
-use libam_api::result::AmResult;
-use libam_api::sequence::ProcessState;
+use libam::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
+use libam::result::AmResult;
+use libam::sequence::ProcessState;
 
 /// What the daemon-through-libam test observes of a libam event.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

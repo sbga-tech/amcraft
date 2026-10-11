@@ -7,14 +7,12 @@ use backend::mock::hid::product_string;
 use backend::mock::{SimFs, SimHid, SimRegistry, SimServices};
 use backend::{Fs, RegValue};
 use libam::Libam;
+use libam::config::{Pair, UsbIoFuncs, UsbIoNode, WideStr};
+use libam::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
 use libam::mock::{SIMULATED_RESOURCE_PATH, SimBackend, SimClock};
 use libam::nvram::{NvramContext, Record};
-use libam_api::am_config::{Pair, UsbIoFuncs, UsbIoNode, WideStr};
-use libam_api::board_io::BoardIoPort;
-use libam_api::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
-use libam_api::result::AmError;
-use libam_api::usb_device::{UsbDeviceEvent, UsbDevicePort};
-use libam_api::usb_io::{FirmwareEvent, FirmwareStatus, UsbIoPort};
+use libam::result::AmError;
+use libam::usbio::{BoardIoPort, FirmwareEvent, FirmwareStatus, UsbDeviceEvent, UsbDevicePort, UsbIoPort};
 use tempfile::TempDir;
 
 /// The functions the simulated board advertises (hexadecimal parameters): one player with 10 buttons, two coin

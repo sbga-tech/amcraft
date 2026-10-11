@@ -3,7 +3,7 @@
 //!
 //! Hand-written because the validator is specific to this binary (`0x1402C6E60`, `0x1402C6AC0`, `0x140226290`).
 
-use libam_api::system_info::LibamSerial;
+use crate::platform::LibamSerial;
 
 use crate::util::wide_array;
 

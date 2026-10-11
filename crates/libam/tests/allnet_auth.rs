@@ -12,10 +12,10 @@ use flate2::Compression;
 use flate2::read::ZlibDecoder;
 use flate2::write::ZlibEncoder;
 use libam::Libam;
+use libam::allnet::AuthPort;
+use libam::config::{AllnetAuthConfig, WideStr};
+use libam::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
 use libam::mock::{SIMULATED_RESOURCE_PATH, SimBackend};
-use libam_api::allnet::AuthPort;
-use libam_api::am_config::{AllnetAuthConfig, WideStr};
-use libam_api::interface::{AmInterface, CabinetAppConfig, LibamEvent, LibamwConfig};
 use tempfile::TempDir;
 
 const TENPO: Ipv4Addr = Ipv4Addr::new(10, 1, 0, 1);

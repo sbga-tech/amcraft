@@ -1,6 +1,6 @@
 //! Small value helpers shared by every module: UTF-16 buffers and broken-down time.
 
-use libam_api::time::{DateTime, Tm};
+use crate::time::{DateTime, Tm};
 
 /// Copies `text` into a NUL-terminated UTF-16 array, truncating at `N - 1` units (the original's bounded copies).
 pub fn wide_array<const N: usize>(text: &str) -> [u16; N] {
@@ -18,12 +18,12 @@ pub fn wide_to_string(units: &[u16]) -> String {
 }
 
 /// The game id of four alphabetic characters, `None` for anything else.
-pub fn game_id(text: &str) -> Option<libam_api::backup::GameId> {
+pub fn game_id(text: &str) -> Option<crate::nvram::GameId> {
     let mut units = [0u16; 5];
     for (count, unit) in text.encode_utf16().enumerate() {
         *units.get_mut(count)? = unit;
     }
-    libam_api::backup::GameId::parse(&units)
+    crate::nvram::GameId::parse(&units)
 }
 
 /// `struct tm` of a local [`DateTime`] (`tm_wday`, `tm_yday` derived; `tm_isdst` 0).

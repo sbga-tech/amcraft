@@ -16,8 +16,8 @@ use crate::schema::net_delivery::{
     ClientNetDeliveryRef, NetDeliveryTask, PATH_CAPACITY, ProgressPair, ServerNetDeliveryAppInfoPatch,
     ServerNetDeliveryMut, ServerNetDeliveryOptionInfoPatch,
 };
-use libam_api::net_delivery::{DELIVERY_SOURCE_CAPACITY, DownloadProgress, ImageKind, NetDeliveryPort, TimeInfo};
-use libam_api::result::AmError;
+use libam::network::{DELIVERY_SOURCE_CAPACITY, DownloadProgress, ImageKind, NetDeliveryPort, TimeInfo};
+use libam::result::AmError;
 
 use crate::controllers::app_image::convert_app;
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
@@ -271,10 +271,10 @@ mod tests {
 
     use super::*;
     use crate::controllers::controller::testing::{Harness, civil};
-    use libam_api::app_image::{AppImageProperty, PropertyKind};
-    use libam_api::net_delivery::ImageInfo;
-    use libam_api::result::AmResult;
-    use libam_api::time::Tm;
+    use libam::appimage::{AppImageProperty, PropertyKind};
+    use libam::network::ImageInfo;
+    use libam::result::AmResult;
+    use libam::time::Tm;
 
     /// libam as seen through the port.
     struct Libam {

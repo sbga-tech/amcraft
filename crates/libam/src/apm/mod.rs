@@ -28,14 +28,14 @@ mod changeapp;
 mod link;
 mod port;
 
-use libam_api::am_config::ApmConfig;
-use libam_api::app_image::{AppImageProperty, PropertyKind};
-use libam_api::backup::GameId;
-use libam_api::time::Tm;
+use crate::appimage::{AppImageProperty, PropertyKind};
+use crate::config::ApmConfig;
+use crate::nvram::GameId;
+use crate::time::Tm;
 
 use crate::module::{ErrorCell, Lifecycle, StateWord};
 
-pub use port::ApmHandle;
+pub use port::{ApmHandle, ApmPort, AppVersion, version_parts};
 
 /// `am::apm::State` after a sub-application ran (`endApp`, storage.md 5.1).
 const STATE_RUNNING: u32 = 1;

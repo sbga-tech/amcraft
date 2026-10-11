@@ -5,9 +5,9 @@
 //! idempotent by design. It works on [`Core`] because it touches the Aime, e-money, AimePay, ALL.Net, storage,
 //! ABaaS, sequence and error modules and the NVRAM game-id switch in one call.
 
-use libam_api::apm::AppVersion;
-use libam_api::backup::GameId;
-use libam_api::result::{AmError, AmResult};
+use crate::apm::AppVersion;
+use crate::nvram::GameId;
+use crate::result::{AmError, AmResult};
 
 use super::link::{self, LinkPaths};
 use crate::core::Core;

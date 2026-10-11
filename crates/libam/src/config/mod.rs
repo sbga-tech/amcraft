@@ -20,30 +20,39 @@ pub mod pay;
 pub mod usb_device;
 pub mod usb_io;
 
+mod am_config;
 mod condition;
 mod convert;
 mod json;
 mod merge;
 mod mixed;
+mod port;
 mod reader;
 mod relation;
 
 use std::fmt;
-
-pub use self::convert::ConvertError;
 use std::path::Path;
 use std::sync::LazyLock;
 use std::time::Instant;
 
-use libam_api::config::ProcessConfig;
-use libam_api::input::{InputConfig, InputRelation};
-use libam_api::interface::{CabinetAppConfig, ConfigBytes, ConfigLoadRequest, ConfigLoader, LoadedConfig};
-use libam_api::output::{OutputConfig, OutputRelation};
-use libam_api::sequence::SequenceConfig;
-use libam_api::usb_io::{UsbIoNodeFunctions, UsbIoProcessConfig, UsbIoUniqueFunction};
+pub use self::am_config::{
+    AbaasLogConfig, AimeConfig, AimePayConfig, AimeUnit, AllnetAccountingConfig, AllnetAuthConfig, AllnetVersion,
+    AllnetWifiConfig, AmConfig, AmConfigError, ApmConfig, BnamConfig, BoundedList, Bytes12, CanBoard, CanConfig,
+    CanNode, CanTarget, CommonConfig, CommonResource, CreditAs6db, CreditConfig, CreditRule, DisplayConfig,
+    EMoneyConfig, ErrorConfig, GenericIoConfig, GenericIoEntry, JvsConfig, JvsNode, JvsTotal, LanInstallConfig,
+    NetDeliverConfig, NetworkConfig, NvramConfig, Pair, Resolution, SequenceCfg, StorageConfig, UNSET_U32, UNSET_U64,
+    UniqueCmd, UsbDeviceConfig, UsbIoConfig, UsbIoFuncs, UsbIoNode, VideoConfig, WideStr,
+};
+pub use self::convert::ConvertError;
+pub use self::port::{
+    AppConfig, ConfigBytes, ConfigLoadRequest, ConfigLoader, FileConfigLoader, LoadedConfig, ProcessConfig,
+};
+use crate::jvs::{InputConfig, InputRelation, OutputConfig, OutputRelation};
+use crate::sequence::SequenceConfig;
+use crate::usbio::{UsbIoNodeFunctions, UsbIoProcessConfig, UsbIoUniqueFunction};
 
 use self::allnet::{Accounting, Auth, Wifi};
-use self::basic::{Backup, Common, ErrorConfig, Video};
+use self::basic::{Backup, Common, Video};
 use self::can::Can;
 use self::condition::{Board, Condition};
 use self::credit::Credit;
@@ -99,7 +108,7 @@ impl From<reader::ConfigError> for LoadError {
 #[derive(Debug, Clone, Default)]
 pub struct Config {
     pub common: Common,
-    pub error: ErrorConfig,
+    pub error: basic::ErrorConfig,
     pub sequence: SequenceConfig,
     pub video: Video,
     pub usb_device: UsbDevice,
@@ -142,7 +151,7 @@ impl Config {
         let max_player = common.max_player;
         let mut cfg = Self { common, ..Self::default() };
 
-        cfg.error = ErrorConfig::parse(tree)?;
+        cfg.error = basic::ErrorConfig::parse(tree)?;
         cfg.sequence = basic::parse_sequence(tree)?;
         cfg.video = Video::parse(tree)?;
         cfg.usb_device = UsbDevice::parse(tree)?;
@@ -280,69 +289,4 @@ fn load_config(request: &ConfigLoadRequest<'_>) -> Result<Config, LoadError> {
     }
     merged?;
     Config::from_tree(&tree, request.exe_dir, request.region, &tag_key)
-}
-
-/// The loader that reads the JSON config files from disk.
-#[derive(Debug, Default)]
-pub struct FileConfigLoader {
-    document: Option<Config>,
-    error: Option<LoadError>,
-    convert_error: Option<ConvertError>,
-}
-
-impl FileConfigLoader {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
-    /// The configuration of the last successful [`ConfigLoader::load`].
-    pub fn document(&self) -> Option<&Config> {
-        self.document.as_ref()
-    }
-
-    /// Why the last [`ConfigLoader::load`] failed; `None` after a success.
-    pub fn error(&self) -> Option<&LoadError> {
-        self.error.as_ref()
-    }
-
-    /// Why the last [`ConfigLoader::convert`] failed; `None` after a success.
-    pub fn convert_error(&self) -> Option<&ConvertError> {
-        self.convert_error.as_ref()
-    }
-}
-
-impl ConfigLoader for FileConfigLoader {
-    fn load(&mut self, request: &ConfigLoadRequest<'_>) -> Option<LoadedConfig> {
-        match load_config(request) {
-            Ok(config) => {
-                let loaded = config.loaded();
-                self.document = Some(config);
-                self.error = None;
-                Some(loaded)
-            }
-            Err(error) => {
-                self.document = None;
-                self.error = Some(error);
-                None
-            }
-        }
-    }
-
-    fn convert(&mut self, config: &LoadedConfig, exe_dir: &str, app_config: &mut CabinetAppConfig) -> bool {
-        let Some(document) = self.document.as_ref() else {
-            self.convert_error =
-                Some(ConvertError { converter: "config", reason: "no configuration is loaded".to_owned() });
-            return false;
-        };
-        match convert::convert(document, config.bytes.byte_4ff8c, exe_dir, app_config) {
-            Ok(()) => {
-                self.convert_error = None;
-                true
-            }
-            Err(error) => {
-                self.convert_error = Some(error);
-                false
-            }
-        }
-    }
 }

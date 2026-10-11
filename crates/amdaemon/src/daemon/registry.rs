@@ -6,31 +6,26 @@
 //! the original (`ServerData*`, `ClientData*`, `Manager*`) and the ServerIO block are reached through
 //! [`crate::controllers::controller::Ctx`] instead.
 
-use libam_api::abaas::LogPort;
-use libam_api::aime::AimePort;
-use libam_api::aime_pay::AimePayPort;
-use libam_api::allnet::{AccountingPort, AirPort, AuthPort, WiFiPort};
-use libam_api::apm::ApmPort;
-use libam_api::app_image::AppImagePort;
-use libam_api::backup::BackupPort;
-use libam_api::board_io::BoardIoPort;
-use libam_api::can::CanPort;
-use libam_api::common::CommonPort;
-use libam_api::credit::CreditPort;
-use libam_api::emoney::EMoneyPort;
-use libam_api::error::ErrorPort;
-use libam_api::input::InputPort;
-use libam_api::interface::{AmInterface, ConfigLoader};
-use libam_api::jvs::JvsPort;
-use libam_api::lan_install::LanInstallPort;
-use libam_api::net_delivery::NetDeliveryPort;
-use libam_api::network::NetworkPort;
-use libam_api::output::OutputPort;
-use libam_api::process::ProcessPort;
-use libam_api::sequence::SequencePort;
-use libam_api::system_info::SystemInfoPort;
-use libam_api::usb_device::UsbDevicePort;
-use libam_api::usb_io::UsbIoPort;
+use libam::abaas::LogPort;
+use libam::aime::AimePort;
+use libam::aimepay::AimePayPort;
+use libam::allnet::billing::AccountingPort;
+use libam::allnet::wifi::WiFiPort;
+use libam::allnet::{AirPort, AuthPort};
+use libam::apm::ApmPort;
+use libam::appimage::AppImagePort;
+use libam::can::CanPort;
+use libam::config::ConfigLoader;
+use libam::credit::CreditPort;
+use libam::emoney::EMoneyPort;
+use libam::error::ErrorPort;
+use libam::interface::AmInterface;
+use libam::jvs::{InputPort, JvsPort, OutputPort};
+use libam::network::{LanInstallPort, NetDeliveryPort, NetworkPort};
+use libam::nvram::BackupPort;
+use libam::platform::{CommonPort, ProcessPort, SystemInfoPort};
+use libam::sequence::SequencePort;
+use libam::usbio::{BoardIoPort, UsbDevicePort, UsbIoPort};
 
 use crate::controllers::abaas_log::LogController;
 use crate::controllers::aime::AimeController;

@@ -1,8 +1,8 @@
 //! The deal log (`spec/libam/payment.md` DL): the in-memory ring of 8 `DealInfo`, the 68-byte persisted record
 //! and the `EmoneyInfo` NVRAM image (system file `0x2200` / mirror `0x5200`, `0x600` bytes).
 
-use libam_api::emoney::{EMoneyDealInfo, LibamBrand};
-use libam_api::time::Tm;
+use crate::emoney::{EMoneyDealInfo, LibamBrand};
+use crate::time::Tm;
 
 use crate::util::{tm_from_date_time, wide_array, wide_to_string};
 
@@ -278,7 +278,7 @@ impl DealRecord {
         };
         deal.brand = libam_brand_of_byte(self.brand);
         let [year, month, day, hour, minute, second] = self.time;
-        if let Some(time) = libam_api::time::DateTime::make(
+        if let Some(time) = crate::time::DateTime::make(
             i32::from(year),
             i32::from(month),
             i32::from(day),

@@ -27,8 +27,7 @@ pub mod lib;
 mod port;
 pub(crate) mod tables;
 
-use libam_api::aime::AimeEvent;
-use libam_api::am_config::AimeConfig;
+use crate::config::AimeConfig;
 
 use self::device::ReaderPorts;
 use self::facade_log::LogQueue;
@@ -36,7 +35,11 @@ use self::facade_unit::Unit;
 use self::lib::{LibManager, NetworkClient};
 use crate::module::{ErrorCell, Lifecycle};
 
-pub use port::AimeHandle;
+pub use port::{
+    AccessCode, AimeAppConfig, AimeEvent, AimeHandle, AimePort, CAMPAIGN_NAME_UNITS, CampaignInfoEntry,
+    CampaignInfoList, CampaignProgressEntry, CampaignProgressList, CardInfo, FinishedStatus, FinishedTask, LedPattern,
+    LibamAimeId, PlayLogStatus, ReaderInfo, RelatedSegaId, UnitTaskFinished,
+};
 
 /// `am::aime::Manager` (`ctx+172272`).
 #[derive(Debug, Default)]

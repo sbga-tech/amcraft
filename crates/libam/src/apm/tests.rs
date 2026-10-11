@@ -1,4 +1,4 @@
-use libam_api::am_config::AmConfig;
+use crate::config::AmConfig;
 
 use super::*;
 use crate::mock::SimBackend;

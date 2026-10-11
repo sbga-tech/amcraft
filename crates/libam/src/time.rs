@@ -13,15 +13,20 @@ pub struct DateTime(pub i64);
 
 /// Largest hour `DateTime::make` accepts (`0x2F`, sic: the original allows `0..=47`).
 const MAX_HOUR: i32 = 0x2F;
+
 /// Microseconds per minute.
 const MICROS_PER_MINUTE: u64 = 60 * 1_000_000;
+
 /// Microseconds per hour.
 const MICROS_PER_HOUR: u64 = 60 * MICROS_PER_MINUTE;
+
 /// Microseconds per day.
 const MICROS_PER_DAY: u64 = 24 * MICROS_PER_HOUR;
+
 /// Largest day number (days since 0001-01-01) `make` accepts, `0xCB9CFEE` = `u64::MAX / MICROS_PER_DAY`
 /// (`0x14005F970` rejects anything above; `0x14005F600` feeds the same constant to `0x14005F7C0`).
 const MAX_DAY_NUMBER: u64 = 0xCB9_CFEE;
+
 /// Largest year `make` accepts: the year of day [`MAX_DAY_NUMBER`] (`0x14005F600` derives it with
 /// `0x14005F7C0(213503982)`; 584555-01-19).
 const MAX_YEAR: i32 = civil_from_days(MAX_DAY_NUMBER).0 as i32;
@@ -133,6 +138,13 @@ impl Tm {
     /// members; `None` when the validator rejects the broken-down time.
     pub fn to_date_time(&self) -> Option<DateTime> {
         DateTime::from_tm(self.sec, self.min, self.hour, self.mday, self.mon, self.year)
+    }
+}
+
+/// The nine `int`s of a C `struct tm` in member order (`tm_sec` first), as the Thinca SDK hands them over.
+impl From<[i32; 9]> for Tm {
+    fn from([sec, min, hour, mday, mon, year, wday, yday, isdst]: [i32; 9]) -> Self {
+        Self { sec, min, hour, mday, mon, year, wday, yday, isdst }
     }
 }
 

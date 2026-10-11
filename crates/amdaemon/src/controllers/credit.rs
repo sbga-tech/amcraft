@@ -16,11 +16,11 @@ use crate::schema::credit::{
     CreditConfigPatch, CreditSound, CreditTask, ServerCoinInPatch, ServerCreditMut, ServerPlayerMut, ServerPlayerPatch,
     ServerSpecialDeviceMut, ServerSpecialDevicePatch,
 };
-use libam_api::credit::{CreditPort, InsertCoinEvent, PLAYERS};
-use libam_api::result::{AmError, AmResult};
+use libam::credit::{CreditPort, InsertCoinEvent, PLAYERS};
+use libam::result::{AmError, AmResult};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
-use libam_api::config::AppConfig;
+use libam::config::AppConfig;
 
 /// Defaults written into `config` at clear time before libam is consulted (`0x14002B6A4`–`0x14002B703`).
 const CLEAR_CONFIG: CreditConfig = CreditConfig {
@@ -387,7 +387,7 @@ mod tests {
 
     use crate::schema::credit::{ClientCreditRequestPatch, CreditBookkeeping, ServerCreditPatch, ServerPlayer};
     use crate::schema::shared::ResponsePatch;
-    use libam_api::credit::{BookkeepingTotals, PlayerCredit};
+    use libam::credit::{BookkeepingTotals, PlayerCredit};
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;

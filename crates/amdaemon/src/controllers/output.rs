@@ -14,33 +14,33 @@ use crate::schema::output::{
     ServerOutputRef,
 };
 use crate::schema::text::fit_wide_str;
-use libam_api::output::{self, OutputPort};
+use libam::jvs::{self, OutputPort};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx};
 use crate::controllers::input::{InputOutputConfig, config_block};
-use libam_api::config::ProcessConfig;
+use libam::config::ProcessConfig;
 
 config_block! {
     ServerOutput<'static> { ServerOutputRef, ServerOutputMut },
     set { OutputRelationSetRef, OutputRelationSetMut },
-    relation { OutputRelationRef, OutputRelationMut, output::OutputRelation, write_relation },
+    relation { OutputRelationRef, OutputRelationMut, jvs::OutputRelation, write_relation },
 }
 
-/// The output-side relation blocks (`0x28CDA` bytes in the original), compiled from the libam-api
-/// [`OutputConfig`](libam_api::output::OutputConfig).
+/// The output-side relation blocks (`0x28CDA` bytes in the original), compiled from libam's
+/// [`OutputConfig`](libam::jvs::OutputConfig).
 pub type CompiledOutputConfig = InputOutputConfig<ServerOutput<'static>>;
 
-/// Compiles one libam-api output relation into its (cleared) schema slot: the id cut to the field, the device
+/// Compiles one libam output relation into its (cleared) schema slot: the id cut to the field, the device
 /// type selected by the info variant, the index, the count (`0` for the types that do not read one) and the
 /// type's info bytes.
-fn write_relation(dst: &mut OutputRelationMut<'_>, src: &output::OutputRelation) {
+fn write_relation(dst: &mut OutputRelationMut<'_>, src: &jvs::OutputRelation) {
     let id = fit_wide_str(&src.id, ID_CAPACITY);
     let (index, count, info) = match src.device {
-        output::OutputDevice::Led { index } => (index, 0, OutputInfoPatch::Led),
-        output::OutputDevice::JvsGeneral { index, count, node } => {
+        jvs::OutputDevice::Led { index } => (index, 0, OutputInfoPatch::Led),
+        jvs::OutputDevice::JvsGeneral { index, count, node } => {
             (index, count, OutputInfoPatch::JvsGeneral(OutputJvsInfoPatch { node: Some(node) }))
         }
-        output::OutputDevice::CanRequest { index, count, port, target, command, data_size } => {
+        jvs::OutputDevice::CanRequest { index, count, port, target, command, data_size } => {
             let info = OutputCanInfoPatch {
                 port: Some(port),
                 target: Some(target),
@@ -49,10 +49,10 @@ fn write_relation(dst: &mut OutputRelationMut<'_>, src: &output::OutputRelation)
             };
             (index, count, OutputInfoPatch::CanRequest(info))
         }
-        output::OutputDevice::UsbGeneral { index, count, node } => {
+        jvs::OutputDevice::UsbGeneral { index, count, node } => {
             (index, count, OutputInfoPatch::UsbGeneral(OutputUsbInfoPatch { node: Some(node) }))
         }
-        output::OutputDevice::UsbPwm { index, node } => {
+        jvs::OutputDevice::UsbPwm { index, node } => {
             (index, 0, OutputInfoPatch::UsbPwm(OutputUsbInfoPatch { node: Some(node) }))
         }
     };
@@ -127,9 +127,8 @@ mod tests {
     use crate::schema::input::{ID_CAPACITY, MAX_RELATIONS};
     use crate::schema::output::{OutputDevice, OutputDeviceType, OutputInfo, OutputJvsInfo, OutputRelation};
     use crate::schema::text::fit_wide_str;
-    use libam_api::input::RelationSet;
-    use libam_api::output::OutputConfig;
-    use libam_api::sequence::ProcessState;
+    use libam::jvs::{OutputConfig, RelationSet};
+    use libam::sequence::ProcessState;
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;
@@ -139,11 +138,11 @@ mod tests {
     impl OutputPort for FakePort {}
 
     /// Appends one JVS general output relation per name (bits `[0, 2)` of node 1) to `set`.
-    fn push_names(set: &mut RelationSet<output::OutputRelation>, names: &[&str]) {
+    fn push_names(set: &mut RelationSet<jvs::OutputRelation>, names: &[&str]) {
         for name in names {
-            let relation = output::OutputRelation {
+            let relation = jvs::OutputRelation {
                 id: (*name).to_owned(),
-                device: output::OutputDevice::JvsGeneral { index: 0, count: 2, node: 1 },
+                device: jvs::OutputDevice::JvsGeneral { index: 0, count: 2, node: 1 },
             };
             set.push(relation).expect("at most 64 relations");
         }

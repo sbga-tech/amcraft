@@ -23,15 +23,13 @@ mod server;
 mod tests;
 mod text;
 
-use libam_api::aime::AccessCode;
-use libam_api::aime_pay::AimePayEvent;
-use libam_api::am_config::AimePayConfig;
-use libam_api::backup::GameId;
-use libam_api::result::{AmError, AmResult};
+use crate::aime::AccessCode;
+use crate::config::AimePayConfig;
+use crate::result::{AmError, AmResult};
 
 use crate::display::{Display, Lane};
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
-use crate::nvram::{Record, RecordStatus};
+use crate::nvram::{GameId, Record, RecordStatus};
 use crate::util::tm_from_date_time;
 
 use self::model::{Deal, DealRing, Location, is_item_id};
@@ -41,7 +39,10 @@ use self::run::{Kind, Run};
 use self::server::Server;
 
 pub use links::{drive, set_shutdown, update};
-pub use port::AimePayHandle;
+pub use port::{
+    AimeId, AimePayAppConfig, AimePayDeal, AimePayEvent, AimePayHandle, AimePayLocation, AimePayPort,
+    AimePaySummaryItem, AimePayUserSetting,
+};
 
 /// Seconds between idle runs while the machine is bootstrapping (state 2).
 const PERIOD_BOOT: u64 = 60;
@@ -390,7 +391,7 @@ impl AimePay {
         }
     }
 
-    fn now_tm(cx: &Cx<'_>) -> libam_api::time::Tm {
+    fn now_tm(cx: &Cx<'_>) -> crate::time::Tm {
         tm_from_date_time(cx.clock.local_now())
     }
 

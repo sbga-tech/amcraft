@@ -9,8 +9,8 @@ use crate::manager::Manager;
 use crate::schema::image::{ClientImage, ServerImage, ServerIoImage};
 use crate::schema::shared::ResponseMut;
 
-use libam_api::config::{AppConfig, ProcessConfig};
-use libam_api::error::FatalError;
+use libam::config::{AppConfig, ProcessConfig};
+use libam::error::FatalError;
 
 /// Borrowed state every controller hook may touch.
 #[derive(Debug)]
@@ -284,8 +284,8 @@ impl ControllerSlot {
 pub(crate) mod testing {
     use crate::manager::Manager;
     use crate::schema::image::{ClientImage, ServerImage, ServerIoImage};
-    use libam_api::sequence::ProcessState;
-    use libam_api::time::DateTime;
+    use libam::sequence::ProcessState;
+    use libam::time::DateTime;
 
     use super::Ctx;
 

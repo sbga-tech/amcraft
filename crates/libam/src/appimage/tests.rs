@@ -1,6 +1,6 @@
 use std::fs;
 
-use libam_api::am_config::AmConfig;
+use crate::config::AmConfig;
 
 use super::icf::{build, record};
 use super::*;

@@ -7,7 +7,7 @@
 //! The release build refuses `allnet_air.enable = true` at config load (spec `controllers/allnet.md`
 //! §5.6), which this crate leaves to the config loader (evidence ids `allnet.air.*`).
 
-use libam_api::allnet::AirPort;
+use libam::allnet::AirPort;
 
 use crate::executor::{RequestExecutor, RequestState};
 use crate::manager::Manager;
@@ -15,7 +15,7 @@ use crate::schema::allnet::{AirTask, ClientAirRef, ServerAirDataPatch};
 use crate::schema::text::fit_wide;
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
-use libam_api::config::ProcessConfig;
+use libam::config::ProcessConfig;
 
 /// Header of the request trace.
 const TRACE_HEADER: &str = "ALL.Net Air - task: ";
@@ -140,7 +140,7 @@ impl Controller for AirController {
 
 #[cfg(test)]
 mod tests {
-    use libam_api::allnet::AirProcessConfig;
+    use libam::allnet::AirProcessConfig;
 
     use crate::schema::allnet::{ClientAirPatch, ServerAirPatch};
     use crate::schema::shared::ResponsePatch;

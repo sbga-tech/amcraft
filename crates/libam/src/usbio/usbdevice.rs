@@ -4,8 +4,8 @@
 //! "required devices" sets are accepted by the validator only when empty and nothing reads them (4 section 8), so
 //! the manager keeps the configuration without interpreting it.
 
-use libam_api::am_config::UsbDeviceConfig;
-use libam_api::usb_device::UsbDeviceEvent;
+use crate::config::UsbDeviceConfig;
+use crate::usbio::UsbDeviceEvent;
 
 use super::reconnect::Job;
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};

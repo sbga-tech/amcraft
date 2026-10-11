@@ -18,8 +18,8 @@ use crate::schema::jvs::{
     ClientJvsRequestRef, JvsAnalogInputMut, JvsAnalogInputPatch, JvsRotaryInputMut, JvsRotaryInputPatch,
     JvsSwitchInputMut, JvsTask, NODE_CAPACITY, SYSTEM_SWITCHES,
 };
-use libam_api::jvs::{AnalogState, JvsPort, RotaryState, SwitchState};
-use libam_api::result::AmError;
+use libam::jvs::{AnalogState, JvsPort, RotaryState, SwitchState};
+use libam::result::AmError;
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, settle_check};
 
@@ -264,8 +264,8 @@ mod tests {
     use std::cell::RefCell;
     use std::rc::Rc;
 
-    use libam_api::jvs::{AnalogChannel, JvsNodeInput};
-    use libam_api::result::AmResult;
+    use libam::jvs::{AnalogChannel, JvsNodeInput};
+    use libam::result::AmResult;
 
     use crate::schema::jvs::{ClientJvsRequestPatch, JvsAnalogInput};
 

@@ -21,15 +21,15 @@ use crate::schema::aime_pay::{
 };
 use crate::schema::image::ServerImage;
 use crate::schema::text::fit_wide;
-use libam_api::aime::AccessCode;
-use libam_api::aime_pay::{
+use libam::aime::AccessCode;
+use libam::aimepay::{
     AimeId, AimePayAppConfig, AimePayDeal, AimePayEvent, AimePayLocation, AimePayPort, AimePayUserSetting,
 };
-use libam_api::emoney::non_empty;
-use libam_api::result::{AmError, AmResult};
+use libam::emoney::non_empty;
+use libam::result::{AmError, AmResult};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
-use libam_api::config::AppConfig;
+use libam::config::AppConfig;
 
 /// libam Aime Pay task id of `QueryUserSetting` (`0x1402865A0`); the other ids are 2 Activation,
 /// 3 Deactivation, 4 PaymentToItem and 5 PaymentToCoin.
@@ -531,8 +531,8 @@ mod tests {
     use crate::controllers::controller::testing::{Harness, civil};
     use crate::schema::aime_pay::{ClientAimePayPatch, ServerDealResultRef, ServerOperationRef};
     use crate::schema::text::fit_wide_str;
-    use libam_api::aime_pay::AimePaySummaryItem;
-    use libam_api::time::Tm;
+    use libam::aimepay::AimePaySummaryItem;
+    use libam::time::Tm;
 
     const CODE: [u8; 10] = [0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56, 0x78, 0x90];
 

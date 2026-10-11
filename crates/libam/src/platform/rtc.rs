@@ -14,7 +14,7 @@ use std::fs::OpenOptions;
 use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 
-use libam_api::time::DateTime;
+use crate::time::DateTime;
 
 use crate::clock::Clock;
 use crate::nvram::NvramContext;

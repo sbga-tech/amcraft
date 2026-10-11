@@ -21,16 +21,16 @@ use crate::schema::aime::{
     ServerAimeMut, ServerAimeUnitMut, ServerAimeUnitPatch, ServerFirmPatch,
 };
 use crate::schema::text::fit_wide;
-use libam_api::aime::{
+use libam::aime::{
     AimeEvent, AimePort, CardInfo, FinishedStatus, FinishedTask, LedPattern, LibamAimeId, PlayLogStatus,
     UnitTaskFinished,
 };
-use libam_api::result::{AmError, AmResult};
-use libam_api::time::{DateTime, Tm};
+use libam::result::{AmError, AmResult};
+use libam::time::{DateTime, Tm};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
 use crate::controllers::error::publish_fatal_error;
-use libam_api::config::AppConfig;
+use libam::config::AppConfig;
 
 /// Number of card reader units the controller owns executors for (`i < 0x30 step 12` in `0x140015000`).
 pub const UNIT_COUNT: usize = 4;
@@ -813,11 +813,11 @@ mod tests {
     use crate::schema::image::ServerImage;
     use crate::schema::shared::ErrorData;
     use crate::schema::text::fit_wide_str;
-    use libam_api::aime::{
+    use libam::aime::{
         AccessCode as LibamAccessCode, CAMPAIGN_NAME_UNITS, CampaignInfoEntry, CampaignInfoList, CampaignProgressEntry,
         CampaignProgressList, ReaderInfo, RelatedSegaId,
     };
-    use libam_api::error::FatalError;
+    use libam::error::FatalError;
 
     /// One libam call as recorded by the test port.
     #[derive(Debug, Clone, PartialEq)]

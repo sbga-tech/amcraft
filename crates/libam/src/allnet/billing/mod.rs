@@ -32,14 +32,14 @@ mod tests;
 
 use std::net::Ipv4Addr;
 
-use libam_api::am_config::AllnetAccountingConfig;
-use libam_api::result::{AmError, AmResult};
+use crate::config::AllnetAccountingConfig;
+use crate::result::{AmError, AmResult};
 
 use crate::module::{Cx, ErrorCell};
 
 pub use driver::Counters;
 pub use link::{Exchange, LinkError, ReportLink};
-pub use port::AccountingHandle;
+pub use port::{AccountingHandle, AccountingInfo, AccountingPort, PlayCountInfo, PlayCountItem};
 pub use records::Identity;
 pub use report::{ReportJob, ReportOutcome, Role};
 

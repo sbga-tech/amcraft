@@ -9,8 +9,6 @@
 use std::collections::VecDeque;
 use std::sync::{Arc, Mutex, MutexGuard};
 
-use libam_api::time::Tm;
-
 use crate::Unsupported;
 
 /// `apiVersion` passed to `ThincaPaymentGetInstance`.
@@ -77,8 +75,9 @@ pub struct SdkDetail {
     pub status: u32,
     /// `T+0x28`: "balance fields present" (1).
     pub has_balance: u32,
-    /// Device time (`None` when the record carries none).
-    pub time: Option<Tm>,
+    /// Device time: the nine `int`s of the SDK's C `struct tm` in member order, `tm_sec` first (`None` when the
+    /// record carries none).
+    pub time: Option<[i32; 9]>,
     /// Card text.
     pub card: String,
     /// Amount.

@@ -6,7 +6,7 @@
 //! - [`schema`]: byte images of `ServerData` / `ClientData` / the ServerIO body and the checked `zero-schema`
 //!   views of every block placed in them.
 //! - [`ipc`]: relation table, Messenger session crypto, framing, publication streams, transports.
-//! - [`controllers`]: the 27 `amdaemon::server` controllers, built against the [`libam_api`] facades.
+//! - [`controllers`]: the 27 `amdaemon::server` controllers, built against the [`libam`] facade traits.
 //! - [`daemon`]: process entry, `App` lifecycle, `arcade::Manager` event hub and the daemon's own internal
 //!   services: clock, window, console, single-instance guard and log. These are not external backends.
 //! - [`executor`], [`manager`]: shared controller framework.

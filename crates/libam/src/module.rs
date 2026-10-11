@@ -7,19 +7,19 @@
 //! and M.4:
 //!
 //! * `initialize(&mut self, cx: &mut Cx<'_>)`: called once from `OperatingState::enter` (M.4); the module reads its
-//!   configuration from `cx.config` (the adopted [`libam_api::am_config::AmConfig`]).
+//!   configuration from `cx.config` (the adopted [`crate::config::AmConfig`]).
 //! * `update(&mut self, cx: &mut Cx<'_>, ...)`: called once per frame (M.3). Extra arguments are the values the
 //!   original passes from other modules (named in the doc comment of each `update`).
 //! * `terminate(&mut self, cx: &mut Cx<'_>)`: called by the terminate order of M.3.
 //!
 //! plus the read side the flow needs: `state()`, `error_cell()` (the error aggregator, M.6) and `is_ready()` (the
-//! `allReady` conjunction, M.2). Port handles live in `<module>/port.rs`; they implement the `libam-api` traits
-//! over [`crate::shared::Shared`]. Events a module wants to deliver to the daemon go to `cx.events`; the frame
-//! returns them in emission order. Blocking work runs on worker threads whose results the module applies inside
-//! `update`, so a frame is deterministic.
+//! `allReady` conjunction, M.2). A module's facades live in `<module>/port.rs`: the port traits, the values they
+//! exchange and the handles that implement them over [`crate::shared::Shared`]. Events a module wants to deliver to
+//! the daemon go to `cx.events`; the frame returns them in emission order. Blocking work runs on worker threads
+//! whose results the module applies inside `update`, so a frame is deterministic.
 
-use libam_api::am_config::AmConfig;
-use libam_api::interface::LibamEvent;
+use crate::config::AmConfig;
+use crate::interface::LibamEvent;
 
 use crate::clock::Clock;
 use backend::Backend;

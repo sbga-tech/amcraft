@@ -5,7 +5,7 @@
 //! owns the `Kill` task of the request pair it shares with [`CommonController`](crate::controllers::common::CommonController)
 //! (`spec/controllers/process_common_systeminfo.md` §1 and §4).
 
-use libam_api::process::{NextProcessCode, ProcessPort};
+use libam::platform::{NextProcessCode, ProcessPort};
 
 use crate::executor::{RequestExecutor, RequestState};
 use crate::manager::{Manager, ManagerState};
@@ -172,9 +172,9 @@ pub(crate) mod tests {
     use std::cell::RefCell;
     use std::rc::Rc;
 
-    use libam_api::result::AmResult;
-    use libam_api::sequence::ProcessState;
-    use libam_api::time::DateTime;
+    use libam::result::AmResult;
+    use libam::sequence::ProcessState;
+    use libam::time::DateTime;
 
     use crate::schema::process::ClientProcessPatch;
 
@@ -198,7 +198,7 @@ pub(crate) mod tests {
         fn process_facade(&mut self) -> AmResult<()> {
             let mut state = self.0.borrow_mut();
             state.facade_calls += 1;
-            if state.facade_ok { Ok(()) } else { Err(libam_api::result::AmError::code(2)) }
+            if state.facade_ok { Ok(()) } else { Err(libam::result::AmError::code(2)) }
         }
 
         fn set_next_process(&mut self, code: NextProcessCode) {

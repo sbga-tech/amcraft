@@ -4,8 +4,8 @@
 //!
 //! The descriptors are configuration echoes: nothing here enumerates monitors.
 
-use libam_api::am_config::VideoConfig;
-use libam_api::system_info::VideoResolution;
+use crate::config::VideoConfig;
+use crate::platform::VideoResolution;
 
 use crate::module::{Cx, ErrorCell, Lifecycle, StateWord};
 use backend::{DisplayMode, DisplayRequest, KeyMode, RegValue, VideoError};

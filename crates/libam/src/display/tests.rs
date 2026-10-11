@@ -1,8 +1,8 @@
 //! Display behaviour on the simulated VFD: protocol bytes, the self-test timeline and `CompleteTask`, the health
 //! tracker and the shutdown flush (`can.md` 3.3-3.10).
 
-use libam_api::am_config::{AmConfig, DisplayConfig};
-use libam_api::interface::LibamEvent;
+use crate::config::{AmConfig, DisplayConfig};
+use crate::interface::LibamEvent;
 
 use super::*;
 use crate::mock::SimBackend;
@@ -65,7 +65,7 @@ impl Rig {
         self.sim.clock.advance_ms(ms);
     }
 
-    fn start_test(&mut self) -> libam_api::result::AmResult<()> {
+    fn start_test(&mut self) -> crate::result::AmResult<()> {
         let now = self.sim.clock.tick_ms();
         self.display.start_test(now)
     }

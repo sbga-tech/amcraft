@@ -12,9 +12,9 @@ use crate::executor::{RequestExecutor, RequestState};
 use crate::manager::Manager;
 use crate::schema::apm::{ApmGameExitReason, ApmTask, ClientApmRef, GameStartInfoRef};
 use crate::schema::image::ClientImage;
-use libam_api::apm::{ApmPort, AppVersion, version_parts};
-use libam_api::backup::GameId;
-use libam_api::result::{AmError, AmResult};
+use libam::apm::{ApmPort, AppVersion, version_parts};
+use libam::nvram::GameId;
+use libam::result::{AmError, AmResult};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
 

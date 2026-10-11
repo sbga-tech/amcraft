@@ -1,4 +1,4 @@
-use libam_api::am_config::{AmConfig, WideStr};
+use crate::config::{AmConfig, WideStr};
 
 use super::*;
 use crate::mock::{SimBackend, SimClock};
@@ -269,13 +269,13 @@ fn restart_re_arms_the_setup() {
 
 #[test]
 fn the_version_block_of_an_option_image_is_not_used() {
-    use libam_api::app_image::{AppImageProperty, PropertyKind};
+    use crate::appimage::{AppImageProperty, PropertyKind};
     let app = AppImageProperty {
         kind: PropertyKind::App,
         initialized: true,
         version: 0x0001_0502,
         option_id: [0; 5],
-        creation: libam_api::time::Tm::default(),
+        creation: crate::time::Tm::default(),
     };
     assert_eq!(LogInputs::version_of(Some(app)), Some((1, 5)));
     assert_eq!(LogInputs::version_of(Some(AppImageProperty { kind: PropertyKind::Option, ..app })), None);

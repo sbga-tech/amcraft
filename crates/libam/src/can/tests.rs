@@ -1,6 +1,6 @@
 //! The disabled-feature state machine: setup, the restart gate and the shutdown (`can.md` 2.5).
 
-use libam_api::am_config::AmConfig;
+use crate::config::AmConfig;
 
 use super::*;
 use crate::mock::{SimBackend, SimClock};

@@ -1,13 +1,13 @@
 //! Sections `input` and `output` (`Config+0xA8`, `Config+0x26082`; `spec/libam/config.md` Part G).
 //!
 //! Both are one template: `{"system": [relation...], "players": [[relation...]...]}`. The result is the shared
-//! [`RelationMap`] of `libam-api`: block 0 holds every relation that is not tied to a JVS node count, block
+//! [`RelationMap`] of [`crate::jvs`]: block 0 holds every relation that is not tied to a JVS node count, block
 //! `1..=4` the JVS relations of the profile for that node count.
 
-use libam_api::input::{
-    CONFIG_BLOCKS, InputDevice, InputRelation, PLAYER_SETS, RelationBlock, RelationMap, RelationSet,
+use crate::jvs::{
+    CONFIG_BLOCKS, InputDevice, InputRelation, OutputDevice, OutputRelation, PLAYER_SETS, RelationBlock, RelationMap,
+    RelationSet,
 };
-use libam_api::output::{OutputDevice, OutputRelation};
 
 use super::json::{Json, Map};
 use super::reader::{Arr, Obj, Res, bad_described, utf16_len};
@@ -229,7 +229,7 @@ pub(super) fn parse_map<R: Clone>(
         let common_sets = std::iter::once(&scratch.common.system).chain(&scratch.common.players);
         let profile_sets = std::iter::once(&profile.system).chain(&profile.players);
         for (common, profile) in common_sets.zip(profile_sets) {
-            if common.as_slice().len() + profile.as_slice().len() > libam_api::input::MAX_RELATIONS {
+            if common.as_slice().len() + profile.as_slice().len() > crate::jvs::MAX_RELATIONS {
                 return Err(bad_described(section.path(), "too many relation", "object"));
             }
         }

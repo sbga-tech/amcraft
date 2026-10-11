@@ -11,9 +11,9 @@
 //!   of `core.md` 7; [`Core::operating_update`] runs the modules in the order of M.3 and then the `allReady`
 //!   transition from the set-up process state to advertise (1 -> 3) or test (2 -> 5).
 
-use libam_api::am_config::{AmConfig, UNSET_U64};
-use libam_api::interface::{CabinetAppConfig, LibamEvent, LoadCabinetTypeEvent};
-use libam_api::result::{AmError, AmResult};
+use crate::config::{AmConfig, UNSET_U64};
+use crate::interface::{CabinetAppConfig, LibamEvent, LoadCabinetTypeEvent};
+use crate::result::{AmError, AmResult};
 
 use crate::abaas::LogInputs;
 use crate::allnet::services::KeychipIdentity;

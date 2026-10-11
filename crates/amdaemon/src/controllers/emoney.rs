@@ -21,13 +21,11 @@ use crate::schema::emoney::{
 };
 use crate::schema::image::ServerImage;
 use crate::schema::text::fit_wide;
-use libam_api::emoney::{
-    EMoneyAppConfig, EMoneyBrandInfo, EMoneyDealInfo, EMoneyEvent, EMoneyPort, LibamBrand, non_empty,
-};
-use libam_api::result::{AmError, AmResult};
+use libam::emoney::{EMoneyAppConfig, EMoneyBrandInfo, EMoneyDealInfo, EMoneyEvent, EMoneyPort, LibamBrand, non_empty};
+use libam::result::{AmError, AmResult};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
-use libam_api::config::{AppConfig, ProcessConfig};
+use libam::config::{AppConfig, ProcessConfig};
 
 /// libam e-money task id of the AmountPay sequencer (`byte[seq+0x60] = 0`, `0x14026EAD0`). CoinPay is
 /// task 5, so only AmountPay can raise the pay-completion event.
@@ -571,7 +569,7 @@ mod tests {
     use crate::controllers::controller::testing::{Harness, buffer, civil};
     use crate::schema::emoney::{ClientEMoneyPatch, ServerOperationRef, ServerResultRef};
     use crate::schema::text::fit_wide_str;
-    use libam_api::time::{DateTime, Tm};
+    use libam::time::{DateTime, Tm};
 
     /// `SD+0x1C78`: first unit of `eMoney.sound.filePath`, for the bytes behind its terminator.
     const SOUND_FILE_PATH: usize = 0x1C78;

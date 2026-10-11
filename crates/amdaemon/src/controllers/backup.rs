@@ -22,8 +22,8 @@ use crate::schema::backup::{
 };
 use crate::schema::image::{ClientImage, ServerImage};
 use crate::schema::text::fit_wide;
-use libam_api::backup::{BackupPort, GameId, NvramDevice};
-use libam_api::result::{AmError, AmResult};
+use libam::nvram::{BackupPort, GameId, NvramDevice};
+use libam::result::{AmError, AmResult};
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
 
@@ -1104,7 +1104,7 @@ mod tests {
         // Falling and rising again finds the memory in place.
         h.manager.mark_finalized();
         slot.pre_execute(&mut h.ctx());
-        h.manager.on_change_state(libam_api::sequence::ProcessState(3));
+        h.manager.on_change_state(libam::sequence::ProcessState(3));
         slot.pre_execute(&mut h.ctx());
         assert_eq!(calls(&libam).len(), 1);
     }

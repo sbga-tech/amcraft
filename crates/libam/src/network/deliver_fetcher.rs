@@ -10,7 +10,7 @@ use std::fs::{self, OpenOptions};
 use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::PathBuf;
 
-use libam_api::time::DateTime;
+use crate::time::DateTime;
 
 use super::deliver_dli::{Dli, DliImage};
 use super::deliver_icf::{Icf, IcfRecord, STATUS_INSTALLED, STATUS_PENDING};

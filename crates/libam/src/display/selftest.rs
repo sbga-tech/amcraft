@@ -1,8 +1,8 @@
 //! The self-test (`can.md` 3.4.1, 3.4.2, 3.6, 3.7): `DisplayTester` under the command sequencer, and the
 //! `CompleteTask` event it raises when it ends.
 
-use libam_api::interface::LibamEvent;
-use libam_api::result::{AmError, AmResult};
+use crate::interface::LibamEvent;
+use crate::result::{AmError, AmResult};
 
 use super::{Display, Io};
 

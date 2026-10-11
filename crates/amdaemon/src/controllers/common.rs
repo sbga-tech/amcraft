@@ -6,7 +6,7 @@
 //! §2 and §4). Both controllers keep their own executor over the same request/response blocks and split
 //! the task space by answering `Idle` ("not mine") for the tasks they do not own.
 
-use libam_api::common::CommonPort;
+use libam::platform::CommonPort;
 
 use crate::executor::{RequestExecutor, RequestState};
 use crate::schema::process::ProcessTask;
@@ -134,10 +134,10 @@ mod tests {
 
     use crate::manager::ManagerState;
     use crate::schema::process::{NextProcess, ProcessTask, ServerProcessPatch};
-    use libam_api::process::{NextProcessCode, ProcessPort};
-    use libam_api::result::{AmError, AmResult};
-    use libam_api::sequence::ProcessState;
-    use libam_api::time::DateTime;
+    use libam::platform::{NextProcessCode, ProcessPort};
+    use libam::result::{AmError, AmResult};
+    use libam::sequence::ProcessState;
+    use libam::time::DateTime;
 
     use super::*;
     use crate::controllers::controller::ControllerSlot;

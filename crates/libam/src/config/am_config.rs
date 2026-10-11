@@ -19,17 +19,17 @@
 use std::ops::Deref;
 
 use crate::aime::AimeAppConfig;
-use crate::aime_pay::AimePayAppConfig;
+use crate::aimepay::AimePayAppConfig;
 use crate::can::CanAppConfig;
 use crate::credit::CreditAppConfig;
 use crate::emoney::EMoneyAppConfig;
 use crate::network::{NetworkAppConfig, NetworkProperty};
 use crate::result::{AmError, AmResult};
-use crate::usb_device::UsbDeviceAppConfig;
-use crate::usb_io::UsbIoAppConfig;
+use crate::usbio::{UsbDeviceAppConfig, UsbIoAppConfig};
 
 /// The `0xFFFFFFFF` "unset" sentinel of the `u32` credit rule values (`dword_1406A14B8`).
 pub const UNSET_U32: u32 = u32::MAX;
+
 /// The `0xFFFFFFFFFFFFFFFF` "unset" sentinel of the `u64` values (`qword_1406A15F8`).
 pub const UNSET_U64: u64 = u64::MAX;
 
@@ -940,6 +940,7 @@ fn fail(rule: &'static str, reason: impl Into<String>) -> Result<(), AmConfigErr
 
 /// Highest COM port number of a VFD display, Aime reader or AS-6DB.
 const MAX_COM_PORT: u64 = 0x100;
+
 /// Largest Aime card accept time (`0x20C49B` seconds).
 const MAX_CARD_ACCEPT_TIME: u32 = 0x20C49B;
 

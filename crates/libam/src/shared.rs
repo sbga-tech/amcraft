@@ -4,20 +4,31 @@ use std::cell::RefCell;
 use std::fmt;
 use std::rc::Rc;
 
-use libam_api::interface::{AmInterface, ConfigLoader};
-use libam_api::result::{AmError, AmResult};
-use libam_api::{
-    abaas::LogPort, aime::AimePort, aime_pay::AimePayPort, allnet::AccountingPort, allnet::AirPort, allnet::AuthPort,
-    allnet::WiFiPort, apm::ApmPort, app_image::AppImagePort, backup::BackupPort, board_io::BoardIoPort, can::CanPort,
-    common::CommonPort, credit::CreditPort, emoney::EMoneyPort, error::ErrorPort, input::InputPort, input::JvsNodePort,
-    jvs::JvsPort, lan_install::LanInstallPort, net_delivery::NetDeliveryPort, network::NetworkPort, output::OutputPort,
-    process::ProcessPort, sequence::SequencePort, system_info::SystemInfoPort, usb_device::UsbDevicePort,
-    usb_io::UsbIoPort,
-};
-
-use crate::clock::Clock;
-use crate::core::Core;
 use backend::Backend;
+
+use crate::abaas::LogPort;
+use crate::aime::AimePort;
+use crate::aimepay::AimePayPort;
+use crate::allnet::billing::AccountingPort;
+use crate::allnet::wifi::WiFiPort;
+use crate::allnet::{AirPort, AuthPort};
+use crate::apm::ApmPort;
+use crate::appimage::AppImagePort;
+use crate::can::CanPort;
+use crate::clock::Clock;
+use crate::config::ConfigLoader;
+use crate::core::Core;
+use crate::credit::CreditPort;
+use crate::emoney::EMoneyPort;
+use crate::error::ErrorPort;
+use crate::interface::AmInterface;
+use crate::jvs::{InputPort, JvsNodePort, JvsPort, OutputPort};
+use crate::network::{LanInstallPort, NetDeliveryPort, NetworkPort};
+use crate::nvram::BackupPort;
+use crate::platform::{CommonPort, ProcessPort, SystemInfoPort};
+use crate::result::{AmError, AmResult};
+use crate::sequence::SequencePort;
+use crate::usbio::{BoardIoPort, UsbDevicePort, UsbIoPort};
 
 /// The libam state every handle points at.
 #[derive(Clone)]

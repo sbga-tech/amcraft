@@ -1,7 +1,7 @@
 //! Board identification (`usbio.md` 1.3.2): the product string, the function block and the test that a board
 //! satisfies a node configuration (1.4.2).
 
-use libam_api::am_config::UsbIoFuncs;
+use crate::config::UsbIoFuncs;
 
 use backend::hid::HidBoard;
 

@@ -1,8 +1,8 @@
 use std::io::Read as _;
 use std::net::Ipv4Addr;
 
+use crate::config::AmConfig;
 use flate2::read::DeflateDecoder;
-use libam_api::am_config::AmConfig;
 
 use super::*;
 use crate::clock::Clock as _;

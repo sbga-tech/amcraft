@@ -7,7 +7,7 @@ use crate::executor::{RequestExecutor, RequestState};
 use crate::manager::Manager;
 use crate::schema::abaas::{ClientAbaasLogRef, LogTask, ServerAbaasLogPatch};
 use crate::schema::text::fit_wide;
-use libam_api::abaas::LogPort;
+use libam::abaas::LogPort;
 
 use crate::controllers::controller::{Controller, ControllerId, Ctx, commit_check};
 
@@ -140,7 +140,7 @@ mod tests {
     use std::rc::Rc;
 
     use crate::schema::abaas::{ClientAbaasLogPatch, ServerAbaasLogRef};
-    use libam_api::result::{AmError, AmResult};
+    use libam::result::{AmError, AmResult};
     use widestring::U16CStr;
 
     use super::*;
